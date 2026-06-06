@@ -7,6 +7,14 @@ body {
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
 }
 
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #94a3b8 #e2e8f0;
+}
+.dark * {
+  scrollbar-color: #475569 #1e293b;
+}
+
 ::-webkit-scrollbar {
   width: 6px;
 }
@@ -23,3 +31,82 @@ body {
 .dark ::-webkit-scrollbar-thumb {
   background: #475569;
 }
+
+@media print {
+  .dark body,
+  .dark *,
+  .dark *::before,
+  .dark *::after {
+    background-color: white !important;
+    color: black !important;
+    border-color: #e2e8f0 !important;
+    box-shadow: none !important;
+  }
+
+  .dark ::-webkit-scrollbar-track,
+  .dark ::-webkit-scrollbar-thumb {
+    display: none;
+  }
+
+  .dark .bg-indigo-600,
+  .dark .bg-indigo-700,
+  .dark .bg-emerald-600,
+  .dark .bg-emerald-700,
+  .dark .bg-amber-600,
+  .dark .bg-red-500,
+  .dark .bg-red-600 {
+    background-color: #e2e8f0 !important;
+    color: black !important;
+  }
+}
+
+/* Smooth transitions for dark mode theme switching */
+html, body, div, header, nav, select, button, input, textarea, p, span, h1, h2, h3, h4, h5, h6, svg, label {
+  transition: background-color 300ms ease-in-out, border-color 300ms ease-in-out, color 300ms ease-in-out, fill 300ms ease-in-out, stroke 300ms ease-in-out;
+}
+
+/* Game visual themes */
+.game-theme-space {
+  --game-bg-gradient: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #1a0533 100%);
+  --game-card-bg: rgba(30, 27, 75, 0.6);
+  --game-card-border: rgba(99, 102, 241, 0.3);
+  --game-accent: #818cf8;
+  --game-text: #e0e7ff;
+}
+.game-theme-forest {
+  --game-bg-gradient: linear-gradient(135deg, #064e3b 0%, #065f46 50%, #047857 100%);
+  --game-card-bg: rgba(6, 78, 59, 0.5);
+  --game-card-border: rgba(52, 211, 153, 0.3);
+  --game-accent: #6ee7b7;
+  --game-text: #d1fae5;
+}
+.game-theme-ocean {
+  --game-bg-gradient: linear-gradient(135deg, #0c4a6e 0%, #075985 50%, #0369a1 100%);
+  --game-card-bg: rgba(12, 74, 110, 0.5);
+  --game-card-border: rgba(56, 189, 248, 0.3);
+  --game-accent: #7dd3fc;
+  --game-text: #e0f2fe;
+}
+.game-theme-cyberpunk {
+  --game-bg-gradient: linear-gradient(135deg, #831843 0%, #6b21a8 50%, #0e7490 100%);
+  --game-card-bg: rgba(107, 33, 168, 0.4);
+  --game-card-border: rgba(236, 72, 153, 0.3);
+  --game-accent: #f472b6;
+  --game-text: #fce7f3;
+}
+.game-theme-space .game-area,
+.game-theme-forest .game-area,
+.game-theme-ocean .game-area,
+.game-theme-cyberpunk .game-area {
+  background: var(--game-bg-gradient) !important;
+  border-color: var(--game-card-border) !important;
+}
+.game-theme-space .game-area .bg-white,
+.game-theme-forest .game-area .bg-white,
+.game-theme-ocean .game-area .bg-white,
+.game-theme-cyberpunk .game-area .bg-white {
+  background: var(--game-card-bg) !important;
+  border-color: var(--game-card-border) !important;
+  color: var(--game-text) !important;
+}
+

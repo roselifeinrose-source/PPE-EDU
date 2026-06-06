@@ -1,8 +1,10 @@
 import { useState, useRef, useEffect } from 'react'
 import { GoogleGenAI } from '@google/genai'
-import { Send, Bot, User, Zap } from 'lucide-react'
+import { Send, Bot, User, Zap, Mic, MicOff, Volume2 } from 'lucide-react'
+import { playSound } from '../utils/soundService'
 
 const apiKey = import.meta.env.VITE_GEMINI_API_KEY
+const ai = apiKey ? new GoogleGenAI({ apiKey }) : null
 
 export default function ChatBot() {
   const [messages, setMessages] = useState([
@@ -10,11 +12,72 @@ export default function ChatBot() {
   ])
   const [input, setInput] = useState('')
   const [loading, setLoading] = useState(false)
+  const [isListening, setIsListening] = useState(false)
   const endRef = useRef(null)
+  const recognitionRef = useRef(null)
 
   useEffect(() => {
     endRef.current?.scrollIntoView({ behavior: 'smooth' })
   }, [messages])
+
+  // Set up speech recognition
+  useEffect(() => {
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition
+    if (SpeechRecognition) {
+      const rec = new SpeechRecognition()
+      rec.continuous = false
+      rec.lang = 'fr-FR'
+      rec.interimResults = false
+
+      rec.onstart = () => {
+        setIsListening(true)
+      }
+
+      rec.onresult = (event) => {
+        const resultText = event.results[0][0].transcript
+        setInput((prev) => (prev ? prev + ' ' + resultText : resultText))
+        setIsListening(false)
+        playSound.correct()
+      }
+
+      rec.onerror = () => {
+        setIsListening(false)
+      }
+
+      rec.onend = () => {
+        setIsListening(false)
+      }
+
+      recognitionRef.current = rec
+    }
+  }, [])
+
+  const toggleListen = () => {
+    if (!recognitionRef.current) {
+      alert("La reconnaissance vocale n'est pas supportée par votre navigateur.")
+      return
+    }
+    playSound.click()
+    if (isListening) {
+      recognitionRef.current.stop()
+    } else {
+      recognitionRef.current.start()
+    }
+  }
+
+  const speakText = (text) => {
+    playSound.click()
+    if (!window.speechSynthesis) {
+      alert("La synthèse vocale n'est pas supportée par votre navigateur.")
+      return
+    }
+    // Cancel any active speech
+    window.speechSynthesis.cancel()
+
+    const utterance = new SpeechSynthesisUtterance(text)
+    utterance.lang = 'fr-FR'
+    window.speechSynthesis.speak(utterance)
+  }
 
   const send = async () => {
     if (!input.trim() || loading) return
@@ -23,7 +86,7 @@ export default function ChatBot() {
     setMessages((prev) => [...prev, { role: 'user', text: userMsg }])
     setLoading(true)
 
-    if (!apiKey) {
+    if (!ai) {
       setMessages((prev) => [
         ...prev,
         { role: 'assistant', text: 'Clé API manquante. Ajoutez VITE_GEMINI_API_KEY dans le fichier .env' },
@@ -33,12 +96,12 @@ export default function ChatBot() {
     }
 
     try {
-      const ai = new GoogleGenAI({ apiKey })
       const response = await ai.models.generateContent({
-        model: 'gemini-2.0-flash',
+        model: 'gemini-3.5-flash',
         contents: `Tu es un assistant pédagogique en informatique pour collégiens marocains. Réponds en français de façon claire et concise.\n\nQuestion: ${userMsg}`,
       })
-      setMessages((prev) => [...prev, { role: 'assistant', text: response.text || 'Pas de réponse.' }])
+      const reply = typeof response.text === 'function' ? response.text() : response.text
+      setMessages((prev) => [...prev, { role: 'assistant', text: reply || 'Pas de réponse.' }])
     } catch {
       setMessages((prev) => [
         ...prev,
@@ -54,7 +117,7 @@ export default function ChatBot() {
       <div className="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl flex-1 flex flex-col overflow-hidden">
         <div className="flex items-center gap-2 px-5 py-3 border-b border-slate-200 dark:border-slate-700">
           <Bot size={18} className="text-indigo-600 dark:text-indigo-400" />
-          <span className="text-sm font-semibold text-slate-900 dark:text-slate-100">Assistant IA</span>
+          <span className="text-sm font-semibold text-slate-900 dark:text-slate-100">Assistant IA Vocal</span>
           {!apiKey && <span className="text-[10px] text-amber-600 dark:text-amber-400 ml-auto">Aucune clé API</span>}
         </div>
 
@@ -62,15 +125,26 @@ export default function ChatBot() {
           {messages.map((msg, i) => (
             <div key={i} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
               <div
-                className={`max-w-[80%] rounded-xl px-4 py-2.5 text-sm ${
-                  msg.role === 'user'
-                    ? 'bg-indigo-600 text-white'
-                    : 'bg-slate-100 dark:bg-slate-700 text-slate-800 dark:text-slate-200'
-                }`}
+                className={`max-w-[80%] rounded-xl px-4 py-2.5 text-sm relative group ${msg.role === 'user'
+                  ? 'bg-indigo-600 text-white'
+                  : 'bg-slate-100 dark:bg-slate-700 text-slate-800 dark:text-slate-200'
+                  }`}
               >
-                <div className="flex items-center gap-1.5 mb-1">
-                  {msg.role === 'assistant' ? <Bot size={14} /> : <User size={14} />}
-                  <span className="text-[10px] opacity-70">{msg.role === 'user' ? 'Vous' : 'Assistant'}</span>
+                <div className="flex items-center justify-between gap-4 mb-1">
+                  <div className="flex items-center gap-1.5">
+                    {msg.role === 'assistant' ? <Bot size={14} /> : <User size={14} />}
+                    <span className="text-[10px] opacity-70">{msg.role === 'user' ? 'Vous' : 'Assistant'}</span>
+                  </div>
+                  {msg.role === 'assistant' && (
+                    <button
+                      type="button"
+                      onClick={() => speakText(msg.text)}
+                      title="Lire à voix haute"
+                      className="text-slate-450 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors"
+                    >
+                      <Volume2 size={13} />
+                    </button>
+                  )}
                 </div>
                 <p className="whitespace-pre-wrap">{msg.text}</p>
               </div>
@@ -87,11 +161,20 @@ export default function ChatBot() {
         </div>
 
         <div className="border-t border-slate-200 dark:border-slate-700 p-3 flex gap-2">
+          <button
+            type="button"
+            onClick={toggleListen}
+            title={isListening ? "Arrêter l'écoute" : "Poser votre question à l'oral"}
+            className={`p-2.5 rounded-lg border transition-all duration-200 shrink-0 ${isListening ? 'bg-red-500 border-red-500 text-white animate-pulse' : 'bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-650 border-slate-200 dark:border-slate-600 text-slate-600 dark:text-slate-350'}`}
+          >
+            {isListening ? <MicOff size={18} /> : <Mic size={18} />}
+          </button>
           <input
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={(e) => e.key === 'Enter' && send()}
-            placeholder="Posez une question..."
+            placeholder={isListening ? "Écoute en cours..." : "Posez une question..."}
+            maxLength={500}
             className="flex-1 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg px-4 py-2.5 text-sm text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-indigo-500/30 placeholder:text-slate-400 dark:placeholder:text-slate-500"
           />
           <button

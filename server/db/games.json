@@ -1,0 +1,299 @@
+{
+  "games": [
+    {
+      "id": "g1",
+      "createdAt": "2025-01-15T10:00:00.000Z",
+      "title": "Les Composants de l'Ordinateur",
+      "subject": "Informatique",
+      "topic": "Architecture",
+      "gameType": "quiz",
+      "difficulty": "medium",
+      "content": {
+        "questions": [
+          {
+            "id": "q1",
+            "question": "Quel composant est considéré comme le \"cerveau\" de l'ordinateur ?",
+            "options": [
+              "RAM",
+              "CPU",
+              "Disque Dur",
+              "Carte Graphique"
+            ],
+            "correctIndex": 1,
+            "concept": "Architecture"
+          },
+          {
+            "id": "q2",
+            "question": "À quoi sert la RAM ?",
+            "options": [
+              "Stocker des fichiers",
+              "Exécuter des programmes",
+              "Afficher l'image",
+              "Refroidir le PC"
+            ],
+            "correctIndex": 1,
+            "concept": "Mémoire"
+          },
+          {
+            "id": "q3",
+            "question": "Quel périphérique est un périphérique d'entrée ?",
+            "options": [
+              "Écran",
+              "Imprimante",
+              "Clavier",
+              "Haut-parleur"
+            ],
+            "correctIndex": 2,
+            "concept": "Périphériques"
+          }
+        ]
+      },
+      "analytics": {
+        "attempts": 5,
+        "averageScore": 80,
+        "failedConcepts": []
+      }
+    },
+    {
+      "id": "g2",
+      "createdAt": "2025-01-16T10:00:00.000Z",
+      "title": "Associez les Périphériques",
+      "subject": "Informatique",
+      "topic": "Architecture",
+      "gameType": "puzzle",
+      "difficulty": "easy",
+      "content": {
+        "pairs": [
+          {
+            "id": "p1",
+            "left": "Clavier",
+            "right": "Périphérique d'entrée"
+          },
+          {
+            "id": "p2",
+            "left": "Écran",
+            "right": "Périphérique de sortie"
+          },
+          {
+            "id": "p3",
+            "left": "Disque Dur",
+            "right": "Stockage"
+          }
+        ]
+      },
+      "analytics": {
+        "attempts": 3,
+        "averageScore": 100,
+        "failedConcepts": []
+      }
+    },
+    {
+      "id": "g1780757713094",
+      "createdAt": "2026-06-06T14:55:13.094Z",
+      "subject": "Informatique",
+      "title": "Composants de l'ordinateur",
+      "topic": "Architecture",
+      "gameType": "quiz",
+      "content": {
+        "questions": [
+          {
+            "id": "t1_q1",
+            "question": "Quel composant est le \"cerveau\" de l'ordinateur ?",
+            "options": [
+              "RAM",
+              "CPU",
+              "Disque Dur",
+              "Carte Graphique"
+            ],
+            "correctIndex": 1,
+            "concept": "Architecture"
+          },
+          {
+            "id": "t1_q2",
+            "question": "À quoi sert la RAM ?",
+            "options": [
+              "Stocker des fichiers",
+              "Exécuter des programmes en cours",
+              "Afficher l'image",
+              "Refroidir le PC"
+            ],
+            "correctIndex": 1,
+            "concept": "Mémoire"
+          },
+          {
+            "id": "t1_q3",
+            "question": "Quel périphérique est un périphérique d'entrée ?",
+            "options": [
+              "Écran",
+              "Imprimante",
+              "Clavier",
+              "Haut-parleur"
+            ],
+            "correctIndex": 2,
+            "concept": "Périphériques"
+          },
+          {
+            "id": "t1_q4",
+            "question": "Quelle est la fonction du disque dur ?",
+            "options": [
+              "Traiter les données",
+              "Stocker les données durablement",
+              "Connecter à Internet",
+              "Produire du son"
+            ],
+            "correctIndex": 1,
+            "concept": "Stockage"
+          }
+        ]
+      },
+      "analytics": {
+        "attempts": 2,
+        "averageScore": 100,
+        "failedConcepts": []
+      }
+    },
+    {
+      "id": "g1780763380761",
+      "createdAt": "2026-06-06T16:29:40.761Z",
+      "subject": "Informatique",
+      "gameType": "memory",
+      "title": "web",
+      "topic": "Architecture",
+      "content": {
+        "pairs": [
+          {
+            "id": "m1",
+            "left": "Cahier des charges",
+            "right": "Définir le but et le public cible"
+          },
+          {
+            "id": "m2",
+            "left": "Le wireframe",
+            "right": "Maquette papier ou numérique du site"
+          },
+          {
+            "id": "m3",
+            "left": "Le code HTML",
+            "right": "Structurer le contenu de la page"
+          },
+          {
+            "id": "m4",
+            "left": "Le fichier CSS",
+            "right": "Styliser et mettre en page le site"
+          },
+          {
+            "id": "m5",
+            "left": "Le JavaScript",
+            "right": "Rendre la page web interactive"
+          },
+          {
+            "id": "m6",
+            "left": "L'hébergement web",
+            "right": "Rendre le site accessible en ligne"
+          }
+        ]
+      },
+      "analytics": {
+        "attempts": 1,
+        "averageScore": 55,
+        "failedConcepts": []
+      },
+      "versions": [
+        {
+          "savedAt": "2026-06-06T16:30:07.848Z",
+          "content": {
+            "pairs": [
+              {
+                "id": "m1",
+                "left": "Cahier des charges",
+                "right": "Définir le but et le public cible"
+              },
+              {
+                "id": "m2",
+                "left": "Le wireframe",
+                "right": "Maquette papier ou numérique du site"
+              },
+              {
+                "id": "m3",
+                "left": "Le code HTML",
+                "right": "Structurer le contenu de la page"
+              },
+              {
+                "id": "m4",
+                "left": "Le fichier CSS",
+                "right": "Styliser et mettre en page le site"
+              },
+              {
+                "id": "m5",
+                "left": "Le JavaScript",
+                "right": "Rendre la page web interactive"
+              },
+              {
+                "id": "m6",
+                "left": "L'hébergement web",
+                "right": "Rendre le site accessible en ligne"
+              }
+            ]
+          },
+          "title": "web",
+          "topic": "Architecture"
+        }
+      ],
+      "comment": ""
+    },
+    {
+      "id": "g1780763703822",
+      "createdAt": "2026-06-06T16:35:03.822Z",
+      "subject": "Informatique",
+      "gameType": "cloze",
+      "title": "algorithme",
+      "topic": "algorithme",
+      "content": {
+        "text": "Bonjour mes élèves ! Un [blank1] est une suite d'instructions précises et ordonnées pour résoudre un problème. Pour stocker une information qui peut changer durant l'exercice, on utilise une [blank2] en lui donnant un nom et un type. L'opération qui consiste à lui attribuer une valeur s'appelle l'[blank3], représentée par le symbole ←. Enfin, pour répéter des instructions plusieurs fois, on utilise une [blank4] comme 'Pour' ou 'Tant que'.",
+        "blanks": {
+          "blank1": {
+            "correct": "algorithme",
+            "options": [
+              "algorithme",
+              "ordinateur",
+              "pseudocode"
+            ]
+          },
+          "blank2": {
+            "correct": "variable",
+            "options": [
+              "variable",
+              "case mémoire",
+              "condition"
+            ]
+          },
+          "blank3": {
+            "correct": "affectation",
+            "options": [
+              "affectation",
+              "déclaration",
+              "opération"
+            ]
+          },
+          "blank4": {
+            "correct": "boucle",
+            "options": [
+              "boucle",
+              "alternative",
+              "séquence"
+            ]
+          }
+        }
+      },
+      "analytics": {
+        "attempts": 1,
+        "averageScore": 100,
+        "failedConcepts": []
+      }
+    }
+  ],
+  "activityLogs": [],
+  "activityFeed": [],
+  "challenges": [],
+  "mentorPairs": []
+}

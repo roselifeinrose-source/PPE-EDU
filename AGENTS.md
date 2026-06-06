@@ -1,5 +1,14 @@
 # AGENTS.md — PPE Informatique
 
+- proiritize existing components and utilities over creating new ones, unless there's a clear gap that needs to be filled.
+- don't update translations unless i asked you to update it.
+
+## GIT workflow
+
+- if i asked you to push to github, run this prompt `.agents\skills\git-workflow-agent\SKILL.md`
+- always create a new branch for push.
+- branch naming convention: `DEV{next_number}` for development branches (sequential: DEV11, DEV12, DEV13, ...) if exist jump it, `DEV{number}_{small_description}` for small changes (e.g., `DEV13_fix_login_bug`).
+
 ## Quick start
 
 ```bash
@@ -44,5 +53,5 @@ No test framework is configured. No typecheck step exists (plain JSX, no TypeScr
 - Lucide React for icons — import by name, e.g. `import { Zap } from 'lucide-react'`
 - All UI text is in French (target: Moroccan middle school students)
 - Role toggle lives in `Navbar` — switches between `teacher` and `student` views for testing
-- `aiService.js` calls Gemini 2.0 Flash API if `VITE_GEMINI_API_KEY` env var is set, otherwise falls back to mock data
+- `aiService.js` and `ChatBot.jsx` call the Gemini API with model `gemini-3.5-flash` if `VITE_GEMINI_API_KEY` env var is set, otherwise falls back to mock data
 - Theme switch uses `useSettingsStore` + `useTheme` hook; header has Sun/Moon toggle button

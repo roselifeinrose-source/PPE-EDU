@@ -1,46 +1,37 @@
 import { useState } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
-import { GraduationCap, User, Sword, Zap, BookOpen, Settings, Sun, Moon, Menu, X, MessageCircle } from 'lucide-react'
+import { GraduationCap, User, Sword, Zap, Settings, Sun, Moon, Menu, X, LogOut } from 'lucide-react'
 import useAuthStore from '../store/useAuthStore'
 import useGameStore from '../store/useGameStore'
 import useTheme from '../hooks/useTheme'
 import SettingsModal from './SettingsModal'
+import TeacherNotifications from './TeacherNotifications'
 import { XP_PER_LEVEL } from '../constants'
 
 export default function Navbar() {
   const [settingsOpen, setSettingsOpen] = useState(false)
   const [mobileOpen, setMobileOpen] = useState(false)
-  const { role, currentStudentId, setTeacherView, setStudentView } = useAuthStore()
+  const { role, currentStudentId, user, logout } = useAuthStore()
   const students = useGameStore((s) => s.students)
   const { theme, toggleTheme } = useTheme()
   const navigate = useNavigate()
   const location = useLocation()
 
-  const currentStudent = students.find((s) => s.id === currentStudentId)
+  const currentStudent = role === 'student' ? (user || students.find((s) => s.id === currentStudentId)) : null
   const xpProgress = currentStudent ? ((currentStudent.totalXP % XP_PER_LEVEL) / XP_PER_LEVEL) * 100 : 0
 
-  const handleToggle = () => {
-    if (role === 'teacher') {
-      setStudentView(students[0]?.id)
-    } else {
-      setTeacherView()
-    }
-    navigate('/')
+  const handleLogout = () => {
+    logout()
+    navigate('/login')
   }
 
-  const switchStudent = (id) => setStudentView(id)
-
   const navLinks = role === 'teacher'
-    ? [
-        { label: 'Tableau de Bord', path: '/teacher', icon: BookOpen },
-        { label: 'Analytiques', path: '/teacher/analytics', icon: Settings },
-        { label: 'Assistant', path: '/chat', icon: MessageCircle },
-      ]
+    ? []
     : [
-        { label: 'Missions', path: '/dashboard', icon: Sword },
-        { label: 'Classement', path: '/leaderboard', icon: Zap },
-        { label: 'Assistant', path: '/chat', icon: MessageCircle },
-      ]
+      { label: 'Missions', path: '/dashboard', icon: Sword },
+      { label: 'Classement', path: '/leaderboard', icon: Zap },
+      { label: 'Mon Profil', path: '/profile', icon: User },
+    ]
 
   return (
     <>
@@ -58,11 +49,10 @@ export default function Navbar() {
                   <button
                     key={link.path}
                     onClick={() => { navigate(link.path); setMobileOpen(false) }}
-                    className={`flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
-                      location.pathname === link.path
-                        ? 'bg-indigo-50 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-300'
-                        : 'text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-700'
-                    }`}
+                    className={`flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${location.pathname === link.path
+                      ? 'bg-indigo-50 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-300'
+                      : 'text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-700'
+                      }`}
                   >
                     <link.icon size={16} />
                     {link.label}
@@ -84,31 +74,26 @@ export default function Navbar() {
                     </div>
                     <div className="text-[10px] text-slate-400 dark:text-slate-500 text-right mt-0.5">{currentStudent.totalXP % XP_PER_LEVEL} / {XP_PER_LEVEL} XP</div>
                   </div>
-                  {students.length > 1 && (
-                    <select
-                      value={currentStudentId}
-                      onChange={(e) => switchStudent(e.target.value)}
-                      className="bg-transparent text-xs text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-slate-600 rounded-lg px-1.5 py-1 cursor-pointer focus:outline-none"
-                    >
-                      {students.map((s) => (
-                        <option key={s.id} value={s.id}>{s.name}</option>
-                      ))}
-                    </select>
-                  )}
                 </div>
               )}
+
 
               {role === 'teacher' && (
                 <div className="hidden sm:flex items-center gap-1.5 text-slate-500 dark:text-slate-400 text-sm">
                   <User size={16} />
-                  <span>Vue Enseignant</span>
+                  <span>{user?.name || 'Enseignant'}</span>
                 </div>
+              )}
+
+              {role === 'teacher' && (
+                <TeacherNotifications />
               )}
 
               <button
                 onClick={toggleTheme}
                 className="p-2 rounded-lg text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-700 transition-all duration-200"
                 title="Changer le thème"
+                aria-label="Changer le thème"
               >
                 {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
               </button>
@@ -116,15 +101,18 @@ export default function Navbar() {
               <button
                 onClick={() => setSettingsOpen(true)}
                 className="p-2 rounded-lg text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-700 transition-all duration-200"
+                aria-label="Paramètres"
               >
                 <Settings size={18} />
               </button>
 
               <button
-                onClick={handleToggle}
-                className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-medium transition-all duration-200 bg-indigo-50 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-300 hover:bg-indigo-100 dark:hover:bg-indigo-900/50"
+                onClick={handleLogout}
+                className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-medium transition-all duration-200 bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 hover:bg-red-100 dark:hover:bg-red-900/30"
+                title="Se déconnecter"
               >
-                {role === 'teacher' ? 'Passer en Élève' : 'Passer en Enseignant'}
+                <LogOut size={14} />
+                Déconnexion
               </button>
 
               <button
@@ -143,11 +131,10 @@ export default function Navbar() {
               <button
                 key={link.path}
                 onClick={() => { navigate(link.path); setMobileOpen(false) }}
-                className={`w-full flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
-                  location.pathname === link.path
-                    ? 'bg-indigo-50 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-300'
-                    : 'text-slate-600 dark:text-slate-400'
-                }`}
+                className={`w-full flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${location.pathname === link.path
+                  ? 'bg-indigo-50 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-300'
+                  : 'text-slate-600 dark:text-slate-400'
+                  }`}
               >
                 <link.icon size={16} />
                 {link.label}
@@ -159,8 +146,9 @@ export default function Navbar() {
                 <div className="text-xs text-slate-500 dark:text-slate-400">Niveau {currentStudent.level} &middot; {currentStudent.totalXP} XP</div>
               </div>
             )}
-            <button onClick={handleToggle} className="w-full text-left text-sm text-indigo-600 dark:text-indigo-400 font-medium py-1">
-              {role === 'teacher' ? 'Passer en Vue Élève' : 'Passer en Vue Enseignant'}
+            <button onClick={handleLogout} className="w-full text-left text-sm text-red-600 dark:text-red-400 font-medium py-1 flex items-center gap-2">
+              <LogOut size={14} />
+              Se déconnecter
             </button>
           </div>
         )}
