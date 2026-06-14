@@ -52,7 +52,8 @@
         "attempts": 5,
         "averageScore": 80,
         "failedConcepts": []
-      }
+      },
+      "publishedAt": null
     },
     {
       "id": "g2",
@@ -288,6 +289,139 @@
       "analytics": {
         "attempts": 1,
         "averageScore": 100,
+        "failedConcepts": []
+      }
+    },
+    {
+      "id": "g1780778578875",
+      "createdAt": "2026-06-06T20:42:58.875Z",
+      "subject": "Informatique",
+      "title": "Quiz sur le Module de Gestion Pédagogique",
+      "topic": "Gestion de classe, méthodes d'enseignement et d'apprentissage",
+      "gameType": "quiz",
+      "content": {
+        "questions": [
+          {
+            "question": "Sous quelle fonction de la gestion trouve-t-on la 'Gestion de la classe' et les 'Interactions humaines' ?",
+            "options": [
+              "La fonction didactique",
+              "La fonction pédagogique",
+              "Le processus de pilotage",
+              "La gestion de la matière"
+            ],
+            "correctIndex": 1,
+            "concept": "Fonctions de la Gestion"
+          },
+          {
+            "question": "Quelles sont les trois actions associées à la 'Gestion de la Classe' d'après la typologie de gestion ?",
+            "options": [
+              "Sélectionner, Choisir, Questionner",
+              "Planifier, Organiser, Évaluer",
+              "Établir (Règles et procédures), Maintenir (Transitions et routines), Rétablir (Résolution de problèmes)",
+              "Disposer le mobilier, Accéder au matériel, Maximiser le temps"
+            ],
+            "correctIndex": 2,
+            "concept": "Typologie de Gestion"
+          },
+          {
+            "question": "Parmi les propositions suivantes, laquelle désigne un 'Style d'Apprentissage' et non un 'Style d'Enseignement' ?",
+            "options": [
+              "Transmissif / Instructif",
+              "Interrogatif / Interactif",
+              "Pratique / Kinesthésique",
+              "Coopératif / Permissif"
+            ],
+            "correctIndex": 2,
+            "concept": "Styles et Méthodes Pédagogiques"
+          },
+          {
+            "question": "Quelles sont les étapes clés du 'Processus de Pilotage' présentées dans le schéma ?",
+            "options": [
+              "Exploration, Didactique, Évaluation, Travaux pratiques",
+              "Planification, Organisation, Animation/Régulation, Évaluation",
+              "Visuel, Auditif, Collaboratif, Autonome",
+              "Magistrale, Projets, Découverte, Différenciée"
+            ],
+            "correctIndex": 1,
+            "concept": "Processus de Pilotage"
+          }
+        ]
+      },
+      "analytics": {
+        "attempts": 0,
+        "averageScore": 0,
+        "failedConcepts": []
+      }
+    },
+    {
+      "id": "g1780778716981",
+      "createdAt": "2026-06-06T20:45:16.981Z",
+      "subject": "Informatique",
+      "gameType": "quiz",
+      "title": "logo",
+      "topic": "qlgorithme",
+      "content": {
+        "questions": [
+          {
+            "id": "q1",
+            "question": "Quel est le radical (root) du mot 'unbelievable' et quelle est sa catégorie grammaticale ?",
+            "options": [
+              "believe (Verbe)",
+              "unbelieve (Adjectif)",
+              "believable (Nom)",
+              "believe (Nom)"
+            ],
+            "correctIndex": 0
+          },
+          {
+            "id": "q2",
+            "question": "Parmi les morphèmes suivants, lequel est un morphème flexionnel (inflectional) ?",
+            "options": [
+              "-ation",
+              "-ly",
+              "-ful",
+              "-est"
+            ],
+            "correctIndex": 3
+          },
+          {
+            "id": "q3",
+            "question": "Quel est le type de formation utilisé pour le mot 'Sunlight' ?",
+            "options": [
+              "La réduplication (Reduplication)",
+              "La composition (Compounding)",
+              "La dérivation inverse (Back-formation)",
+              "Le changement interne (Internal Change)"
+            ],
+            "correctIndex": 1
+          },
+          {
+            "id": "q4",
+            "question": "Dans l'analyse syntaxique, à quel type de groupe (Phrase) correspond l'expression 'highly complex' ?",
+            "options": [
+              "Groupe adjectival (Adjective Phrase - AdjP)",
+              "Groupe nominal (Noun Phrase - NP)",
+              "Groupe adverbial (Adverb Phrase - AdvP)",
+              "Groupe prépositionnel (Prepositional Phrase - PP)"
+            ],
+            "correctIndex": 0
+          },
+          {
+            "id": "q5",
+            "question": "Quel est le type de la phrase suivante : 'Mary enjoys reading detective stories.' ?",
+            "options": [
+              "Phrase complexe (Complex)",
+              "Phrase composée-complexe (Compound-Complex)",
+              "Phrase simple (Simple)",
+              "Phrase composée (Compound)"
+            ],
+            "correctIndex": 2
+          }
+        ]
+      },
+      "analytics": {
+        "attempts": 1,
+        "averageScore": 0,
         "failedConcepts": []
       }
     }
