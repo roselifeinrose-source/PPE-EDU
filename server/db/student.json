@@ -1,0 +1,266 @@
+{
+  "students": [
+    {
+      "id": "s1",
+      "name": "Amina El Amrani",
+      "password": "student123",
+      "totalXP": 0,
+      "level": 0,
+      "completedGames": [],
+      "bestScores": {},
+      "groupId": "grp1780778818919",
+      "achievements": [],
+      "dailyStreak": 0,
+      "lastDailyDate": null,
+      "dailyChallengesCompleted": 0,
+      "playTimestamps": [],
+      "avatar": {
+        "emoji": "🐱",
+        "color": "from-pink-500 to-rose-500",
+        "accessory": "glasses"
+      },
+      "preferences": {
+        "theme": "dark",
+        "sound": true
+      },
+      "createdAt": "2025-01-15T10:00:00.000Z"
+    },
+    {
+      "id": "s2",
+      "name": "Youssef Benali",
+      "password": "student123",
+      "totalXP": 351,
+      "level": 2,
+      "completedGames": [
+        {
+          "gameId": "g1",
+          "score": 33,
+          "xpGained": 17,
+          "date": "2026-06-06T15:50:34.763Z"
+        },
+        {
+          "gameId": "g2",
+          "score": 100,
+          "xpGained": 50,
+          "date": "2026-06-06T16:10:56.936Z"
+        },
+        {
+          "gameId": "g1780757713094",
+          "score": 100,
+          "xpGained": 50,
+          "date": "2026-06-06T16:11:17.229Z"
+        },
+        {
+          "gameId": "g1",
+          "score": 100,
+          "xpGained": 50,
+          "date": "2026-06-06T16:12:39.648Z"
+        },
+        {
+          "gameId": "daily",
+          "score": 100,
+          "xpGained": 75,
+          "date": "2026-06-06T16:20:04.474Z"
+        },
+        {
+          "gameId": "mini-1780762820272",
+          "score": 2,
+          "xpGained": 13,
+          "date": "2026-06-06T16:20:20.282Z"
+        },
+        {
+          "gameId": "mini-1780762834431",
+          "score": 2,
+          "xpGained": 13,
+          "date": "2026-06-06T16:20:34.442Z"
+        },
+        {
+          "gameId": "g1",
+          "score": 100,
+          "xpGained": 50,
+          "date": "2026-06-06T16:25:09.351Z"
+        },
+        {
+          "gameId": "g2",
+          "score": 100,
+          "xpGained": 50,
+          "date": "2026-06-06T16:25:20.659Z"
+        }
+      ],
+      "bestScores": {
+        "g1": 100,
+        "g2": 100,
+        "g1780757713094": 100,
+        "daily": 100,
+        "mini-1780762820272": 2,
+        "mini-1780762834431": 2
+      },
+      "groupId": "g1",
+      "achievements": [],
+      "dailyStreak": 1,
+      "lastDailyDate": "Sat Jun 06 2026",
+      "dailyChallengesCompleted": 0,
+      "playTimestamps": [],
+      "avatar": {
+        "emoji": "🐙",
+        "color": "from-emerald-400 to-teal-600",
+        "accessory": "none"
+      },
+      "preferences": {
+        "theme": "light",
+        "sound": true
+      },
+      "createdAt": "2025-01-15T10:00:00.000Z"
+    },
+    {
+      "id": "s3",
+      "name": "Mehdi Ouazzani",
+      "password": "student123",
+      "totalXP": 0,
+      "level": 1,
+      "completedGames": [],
+      "bestScores": {},
+      "groupId": "g2",
+      "achievements": [],
+      "dailyStreak": 0,
+      "lastDailyDate": null,
+      "dailyChallengesCompleted": 0,
+      "playTimestamps": [],
+      "avatar": {
+        "emoji": "🦊",
+        "color": "from-amber-500 to-orange-500",
+        "accessory": "none"
+      },
+      "preferences": {
+        "theme": "dark",
+        "sound": false
+      },
+      "createdAt": "2025-01-16T10:00:00.000Z"
+    },
+    {
+      "id": "s1780763249721",
+      "name": "Mouad allaoui",
+      "password": "student123",
+      "totalXP": 2000,
+      "level": 7,
+      "completedGames": [
+        {
+          "gameId": "g1",
+          "score": 100,
+          "xpGained": 50,
+          "date": "2026-06-06T16:36:04.886Z"
+        },
+        {
+          "gameId": "mini-1780763775689",
+          "score": 2,
+          "xpGained": 13,
+          "date": "2026-06-06T16:36:15.699Z"
+        },
+        {
+          "gameId": "g2",
+          "score": 100,
+          "xpGained": 50,
+          "date": "2026-06-06T16:37:49.442Z"
+        },
+        {
+          "gameId": "g1780757713094",
+          "score": 100,
+          "xpGained": 50,
+          "date": "2026-06-06T16:38:01.284Z"
+        },
+        {
+          "gameId": "g1780763380761",
+          "score": 55,
+          "xpGained": 28,
+          "date": "2026-06-06T16:39:15.007Z"
+        },
+        {
+          "gameId": "g1780763507089",
+          "score": 50,
+          "xpGained": 25,
+          "date": "2026-06-06T16:39:39.612Z"
+        },
+        {
+          "gameId": "g1780763703822",
+          "score": 100,
+          "xpGained": 50,
+          "date": "2026-06-06T16:40:35.712Z"
+        },
+        {
+          "gameId": "mini-1780764468692",
+          "score": 2,
+          "xpGained": 13,
+          "date": "2026-06-06T16:47:48.716Z"
+        },
+        {
+          "gameId": "g1",
+          "score": 67,
+          "xpGained": 34,
+          "date": "2026-06-06T16:47:57.857Z"
+        },
+        {
+          "gameId": "mini-1780778912513",
+          "score": 2,
+          "xpGained": 13,
+          "date": "2026-06-06T20:48:32.542Z"
+        },
+        {
+          "gameId": "g1780778716981",
+          "score": 0,
+          "xpGained": 0,
+          "date": "2026-06-06T20:49:55.006Z"
+        }
+      ],
+      "bestScores": {
+        "g1": 100,
+        "mini-1780763775689": 2,
+        "g2": 100,
+        "g1780757713094": 100,
+        "g1780763380761": 55,
+        "g1780763507089": 50,
+        "g1780763703822": 100,
+        "mini-1780764468692": 2,
+        "mini-1780778912513": 2,
+        "g1780778716981": 0
+      },
+      "groupId": "g3",
+      "achievements": [],
+      "dailyStreak": 1,
+      "lastDailyDate": "Sat Jun 06 2026",
+      "dailyChallengesCompleted": 0,
+      "playTimestamps": [],
+      "avatar": {
+        "emoji": "🦊",
+        "color": "from-pink-500 to-rose-500",
+        "accessory": "none"
+      },
+      "preferences": {
+        "theme": "dark",
+        "sound": true
+      },
+      "createdAt": "2026-06-06T16:27:29.721Z"
+    }
+  ],
+  "groups": [
+    {
+      "id": "g1",
+      "name": "1 AC",
+      "color": "#6366f1"
+    },
+    {
+      "id": "g2",
+      "name": "2 AC",
+      "color": "#10b981"
+    },
+    {
+      "id": "g3",
+      "name": "3 AC",
+      "color": "#35faf1"
+    },
+    {
+      "id": "grp1780778818919",
+      "name": "2ac g 1",
+      "color": "#ef4444"
+    }
+  ]
+}

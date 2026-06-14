@@ -1,0 +1,13 @@
+{
+  "teachers": [
+    {
+      "id": "t1",
+      "name": "M. Alami",
+      "email": "alami@school.ma",
+      "password": "admin123",
+      "subject": "Informatique",
+      "avatar": { "emoji": "👨‍🏫", "color": "from-indigo-500 to-purple-500" },
+      "createdAt": "2025-01-10T10:00:00.000Z"
+    }
+  ]
+}
