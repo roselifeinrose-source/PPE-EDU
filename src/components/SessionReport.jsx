@@ -1,5 +1,6 @@
 import { FileDown, Users, TrendingUp, AlertTriangle } from 'lucide-react'
 import useGameStore from '../store/useGameStore'
+import { getLevel } from '../constants'
 
 export default function SessionReport() {
   const games = useGameStore((s) => s.games)
@@ -59,7 +60,7 @@ export default function SessionReport() {
     report += `${'-'.repeat(30)}\n`
     for (let i = 0; i < studentStats.length; i++) {
       const s = studentStats[i]
-      report += `${i + 1}. ${s.name}: ${s.avgScore}% moyen, Niveau ${s.level}, ${s.totalXP} XP, ${s.gamesPlayed} parties\n`
+      report += `${i + 1}. ${s.name}: ${s.avgScore}% moyen, Niveau ${getLevel(s.totalXP)}, ${s.totalXP} XP, ${s.gamesPlayed} parties\n`
     }
 
     report += `\n${'='.repeat(50)}\nGénéré par InforGames - ${dateStr}\n`

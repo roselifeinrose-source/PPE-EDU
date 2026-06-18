@@ -3,6 +3,7 @@ import { Users, ArrowRight, Zap, Star, X, GraduationCap, Award } from 'lucide-re
 import useGameStore from '../store/useGameStore'
 import useAuthStore from '../store/useAuthStore'
 import { playSound } from '../utils/soundService'
+import { getLevel } from '../constants'
 
 export default function MentorSystem({ onClose }) {
   const students = useGameStore((s) => s.students)
@@ -15,8 +16,8 @@ export default function MentorSystem({ onClose }) {
 
   const user = useAuthStore((s) => s.user)
   const currentStudent = students.find((s) => s.id === currentStudentId) || (user?.id === currentStudentId ? user : null)
-  const highLevelStudents = students.filter((s) => s.level >= 5).sort((a, b) => b.level - a.level)
-  const lowLevelStudents = students.filter((s) => s.level < 5).sort((a, b) => a.level - b.level)
+  const highLevelStudents = students.filter((s) => getLevel(s.totalXP) >= 5).sort((a, b) => getLevel(b.totalXP) - getLevel(a.totalXP))
+  const lowLevelStudents = students.filter((s) => getLevel(s.totalXP) < 5).sort((a, b) => getLevel(a.totalXP) - getLevel(b.totalXP))
 
   const myPair = mentorPairs.find((p) => p.mentorId === currentStudentId || p.menteeId === currentStudentId)
 
@@ -73,7 +74,7 @@ export default function MentorSystem({ onClose }) {
             </div>
           )}
 
-          {currentStudent && currentStudent.level >= 5 && (
+          {currentStudent && getLevel(currentStudent.totalXP) >= 5 && (
             <div>
               <h3 className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-3">Créer un pairing</h3>
               <div className="grid grid-cols-2 gap-3">
@@ -90,7 +91,7 @@ export default function MentorSystem({ onClose }) {
                         <span className="text-sm">{s.avatar?.emoji || '👤'}</span>
                         <div className="min-w-0 flex-1">
                           <p className="text-xs font-medium text-slate-900 dark:text-slate-100 truncate">{s.name}</p>
-                          <p className="text-[10px] text-slate-400">Niv. {s.level} · {s.totalXP} XP</p>
+                          <p className="text-[10px] text-slate-400">Niv. {getLevel(s.totalXP)} · {s.totalXP} XP</p>
                         </div>
                         <Star size={10} className="text-amber-400 shrink-0" />
                       </button>
@@ -116,7 +117,7 @@ export default function MentorSystem({ onClose }) {
                           <span className="text-sm">{s.avatar?.emoji || '👤'}</span>
                           <div className="min-w-0 flex-1">
                             <p className="text-xs font-medium text-slate-900 dark:text-slate-100 truncate">{s.name}</p>
-                            <p className="text-[10px] text-slate-400">Niv. {s.level}</p>
+                            <p className="text-[10px] text-slate-400">Niv. {getLevel(s.totalXP)}</p>
                           </div>
                           {isPaired && <Award size={10} className="text-emerald-400 shrink-0" />}
                         </button>
@@ -137,7 +138,7 @@ export default function MentorSystem({ onClose }) {
             </div>
           )}
 
-          {currentStudent && currentStudent.level < 5 && !myPair && (
+          {currentStudent && getLevel(currentStudent.totalXP) < 5 && !myPair && (
             <div className="text-center py-8">
               <Users size={32} className="mx-auto text-slate-300 dark:text-slate-600 mb-3" />
               <p className="text-sm text-slate-500 dark:text-slate-400">Atteignez le niveau 5 pour devenir mentor !</p>

@@ -1,10 +1,7 @@
 import { useState, useRef, useEffect } from 'react'
-import { GoogleGenAI } from '@google/genai'
 import { Send, Bot, User, Zap, Mic, MicOff, Volume2 } from 'lucide-react'
 import { playSound } from '../utils/soundService'
-
-const apiKey = import.meta.env.VITE_GEMINI_API_KEY
-const ai = apiKey ? new GoogleGenAI({ apiKey }) : null
+import { chatWithAI } from '../utils/aiService'
 
 export default function ChatBot() {
   const [messages, setMessages] = useState([
@@ -20,33 +17,28 @@ export default function ChatBot() {
     endRef.current?.scrollIntoView({ behavior: 'smooth' })
   }, [messages])
 
-  // Set up speech recognition
   useEffect(() => {
     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition
     if (SpeechRecognition) {
       const rec = new SpeechRecognition()
-      rec.continuous = false
+      rec.continuous = true
       rec.lang = 'fr-FR'
-      rec.interimResults = false
+      rec.interimResults = true
 
-      rec.onstart = () => {
-        setIsListening(true)
-      }
+      rec.onstart = () => setIsListening(true)
 
       rec.onresult = (event) => {
-        const resultText = event.results[0][0].transcript
-        setInput((prev) => (prev ? prev + ' ' + resultText : resultText))
-        setIsListening(false)
-        playSound.correct()
+        let transcript = ''
+        for (let i = event.resultIndex; i < event.results.length; i++) {
+          transcript += event.results[i][0].transcript
+        }
+        if (event.results[event.results.length - 1].isFinal) {
+          setInput((prev) => (prev ? prev + ' ' + transcript : transcript))
+        }
       }
 
-      rec.onerror = () => {
-        setIsListening(false)
-      }
-
-      rec.onend = () => {
-        setIsListening(false)
-      }
+      rec.onerror = () => setIsListening(false)
+      rec.onend = () => setIsListening(false)
 
       recognitionRef.current = rec
     }
@@ -58,11 +50,8 @@ export default function ChatBot() {
       return
     }
     playSound.click()
-    if (isListening) {
-      recognitionRef.current.stop()
-    } else {
-      recognitionRef.current.start()
-    }
+    if (isListening) recognitionRef.current.stop()
+    else recognitionRef.current.start()
   }
 
   const speakText = (text) => {
@@ -71,9 +60,7 @@ export default function ChatBot() {
       alert("La synthèse vocale n'est pas supportée par votre navigateur.")
       return
     }
-    // Cancel any active speech
     window.speechSynthesis.cancel()
-
     const utterance = new SpeechSynthesisUtterance(text)
     utterance.lang = 'fr-FR'
     window.speechSynthesis.speak(utterance)
@@ -86,30 +73,10 @@ export default function ChatBot() {
     setMessages((prev) => [...prev, { role: 'user', text: userMsg }])
     setLoading(true)
 
-    if (!ai) {
-      setMessages((prev) => [
-        ...prev,
-        { role: 'assistant', text: 'Clé API manquante. Ajoutez VITE_GEMINI_API_KEY dans le fichier .env' },
-      ])
-      setLoading(false)
-      return
-    }
-
-    try {
-      const response = await ai.models.generateContent({
-        model: 'gemini-3.5-flash',
-        contents: `Tu es un assistant pédagogique en informatique pour collégiens marocains. Réponds en français de façon claire et concise.\n\nQuestion: ${userMsg}`,
-      })
-      const reply = typeof response.text === 'function' ? response.text() : response.text
-      setMessages((prev) => [...prev, { role: 'assistant', text: reply || 'Pas de réponse.' }])
-    } catch {
-      setMessages((prev) => [
-        ...prev,
-        { role: 'assistant', text: 'Erreur de connexion à l\'API. Vérifiez votre clé et votre quota.' },
-      ])
-    } finally {
-      setLoading(false)
-    }
+    const sysPrompt = 'Tu es un assistant pédagogique en informatique pour collégiens marocains. Réponds en français de façon claire et concise.'
+    const { text } = await chatWithAI(userMsg, sysPrompt)
+    setMessages((prev) => [...prev, { role: 'assistant', text }])
+    setLoading(false)
   }
 
   return (
@@ -118,7 +85,7 @@ export default function ChatBot() {
         <div className="flex items-center gap-2 px-5 py-3 border-b border-slate-200 dark:border-slate-700">
           <Bot size={18} className="text-indigo-600 dark:text-indigo-400" />
           <span className="text-sm font-semibold text-slate-900 dark:text-slate-100">Assistant IA Vocal</span>
-          {!apiKey && <span className="text-[10px] text-amber-600 dark:text-amber-400 ml-auto">Aucune clé API</span>}
+          {!import.meta.env.VITE_GEMINI_API_KEY && <span className="text-[10px] text-amber-600 dark:text-amber-400 ml-auto">Aucune clé API</span>}
         </div>
 
         <div className="flex-1 overflow-y-auto p-4 space-y-3">

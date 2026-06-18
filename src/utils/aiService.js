@@ -1,4 +1,5 @@
 import { GoogleGenAI } from '@google/genai'
+import { getLevel } from '../constants'
 
 const ai = import.meta.env.VITE_GEMINI_API_KEY
   ? new GoogleGenAI({ apiKey: import.meta.env.VITE_GEMINI_API_KEY })
@@ -366,6 +367,33 @@ export async function generateGameFromText(lessonText, gameType, onProgress) {
   }
 }
 
+// ─── Chat / Q&A ─────────────────────────────────────────────────────────────
+
+export async function chatWithAI(userMessage, systemPrompt) {
+  if (!ai) {
+    await new Promise((r) => setTimeout(r, 600))
+    return {
+      text: 'Mode simulation : je suis un assistant pédagogique. Configurez VITE_GEMINI_API_KEY pour des réponses réelles.',
+      isSimulation: true,
+    }
+  }
+
+  try {
+    const response = await ai.models.generateContent({
+      model: 'gemini-3.5-flash',
+      contents: systemPrompt ? `${systemPrompt}\n\nQuestion / Demande : ${userMessage}` : userMessage,
+    })
+    const text = typeof response.text === 'function' ? response.text() : response.text
+    return { text: text || 'Pas de réponse.', isSimulation: false }
+  } catch (err) {
+    console.error('chatWithAI error:', err)
+    return {
+      text: 'Service IA temporairement indisponible (forte affluence). Veuillez réessayer plus tard.',
+      isSimulation: true,
+    }
+  }
+}
+
 // ─── Analytics IA ────────────────────────────────────────────────────────────
 
 function buildAnalyticsPrompt(games, students) {
@@ -379,7 +407,7 @@ function buildAnalyticsPrompt(games, students) {
       const avg = s.completedGames.length
         ? Math.round(s.completedGames.reduce((sum, r) => sum + r.score, 0) / s.completedGames.length)
         : 0
-      return `- ${s.name}: niveau ${s.level}, ${s.totalXP} XP, ${s.completedGames.length} partie(s), score moyen ${avg}%`
+      return `- ${s.name}: niveau ${getLevel(s.totalXP)}, ${s.totalXP} XP, ${s.completedGames.length} partie(s), score moyen ${avg}%`
     })
     .join('\n')
 

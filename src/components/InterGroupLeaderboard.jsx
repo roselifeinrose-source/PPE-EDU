@@ -2,6 +2,7 @@ import { useMemo } from 'react'
 import { TrendingUp, Users } from 'lucide-react'
 import useAuthStore from '../store/useAuthStore'
 import useGameStore from '../store/useGameStore'
+import { getLevel } from '../constants'
 
 export default function InterGroupLeaderboard() {
   const currentStudentId = useAuthStore((s) => s.currentStudentId)
@@ -13,7 +14,7 @@ export default function InterGroupLeaderboard() {
       const members = students.filter((s) => s.groupId === group.id)
       const totalXP = members.reduce((sum, s) => sum + s.totalXP, 0)
       const avgXP = members.length ? Math.round(totalXP / members.length) : 0
-      const avgLevel = members.length ? Math.round(members.reduce((sum, s) => sum + s.level, 0) / members.length) : 0
+      const avgLevel = members.length ? Math.round(members.reduce((sum, s) => sum + getLevel(s.totalXP), 0) / members.length) : 0
       const totalGames = members.reduce((sum, s) => sum + s.completedGames.length, 0)
       return { ...group, members, totalXP, avgXP, avgLevel, totalGames }
     }).sort((a, b) => b.totalXP - a.totalXP)

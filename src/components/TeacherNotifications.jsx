@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { Bell, X, Zap, Award } from 'lucide-react'
 import useGameStore from '../store/useGameStore'
+import { getLevel } from '../constants'
 
 export default function TeacherNotifications() {
   const students = useGameStore((s) => s.students)
@@ -15,8 +16,8 @@ export default function TeacherNotifications() {
       for (const s of current) {
         const p = prev[s.id]
         if (!p) continue
-        if (s.level > p.level) {
-          newNotifs.push({ id: `n${Date.now()}_${s.id}`, type: 'levelup', student: s.name, level: s.level, time: new Date().toISOString() })
+        if (getLevel(s.totalXP) > getLevel(p.totalXP)) {
+          newNotifs.push({ id: `n${Date.now()}_${s.id}`, type: 'levelup', student: s.name, level: getLevel(s.totalXP), time: new Date().toISOString() })
         }
         if (s.completedGames.length > p.completedGames.length) {
           const last = s.completedGames[s.completedGames.length - 1]
@@ -28,7 +29,7 @@ export default function TeacherNotifications() {
         setNotifications((prev) => [...newNotifs, ...prev].slice(0, 50))
       }
       for (const s of current) {
-        prev[s.id] = { level: s.level, completedGames: s.completedGames.length }
+        prev[s.id] = { totalXP: s.totalXP, completedGames: s.completedGames.length }
       }
     }, 3000)
     return () => clearInterval(interval)

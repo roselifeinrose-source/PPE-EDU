@@ -15,6 +15,7 @@ import StudentLeaderboard from './dashboards/StudentLeaderboard'
 import StudentProfile from './components/StudentProfile'
 import ChatBot from './components/ChatBot'
 import LoginPage from './pages/auth/LoginPage'
+import Toast from './components/Toast'
 import useAuthStore from './store/useAuthStore'
 import useGameStore from './store/useGameStore'
 import useTheme from './hooks/useTheme'
@@ -29,16 +30,21 @@ function HomeRedirect() {
 export default function App() {
   useTheme()
   const init = useAuthStore((s) => s.init)
+  const token = useAuthStore((s) => s.token)
   const syncFromAPI = useGameStore((s) => s.syncFromAPI)
 
   useEffect(() => {
     init()
-    syncFromAPI()
-  }, [init, syncFromAPI])
+  }, [init])
+
+  useEffect(() => {
+    if (token) syncFromAPI()
+  }, [token, syncFromAPI])
 
   return (
     <BrowserRouter>
       <ErrorBoundary>
+        <Toast />
         <Routes>
           <Route path="/login" element={<LoginPage />} />
           <Route path="/" element={<HomeRedirect />} />

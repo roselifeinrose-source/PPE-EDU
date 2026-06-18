@@ -4,7 +4,7 @@ import useGameStore, { getRewardTier } from '../store/useGameStore'
 import useAuthStore from '../store/useAuthStore'
 import AchievementSystem from './AchievementSystem'
 import ProgressHistory from './ProgressHistory'
-import { XP_PER_LEVEL } from '../constants'
+import { XP_PER_LEVEL, getLevel } from '../constants'
 
 function exportStudentCSV(student, games) {
   const rows = [
@@ -107,7 +107,7 @@ export default function StudentProfile() {
             <div>
               <h1 className="text-xl font-bold">{student.name}</h1>
               <div className="flex items-center gap-2 mt-1">
-                <span className="text-sm text-white/80">Niveau {student.level}</span>
+                <span className="text-sm text-white/80">Niveau {getLevel(student.totalXP)}</span>
                 <span className="text-white/50">·</span>
                 <span className="text-sm font-semibold">{tier.icon} {tier.label}</span>
                 {student.dailyStreak > 0 && (
@@ -128,7 +128,7 @@ export default function StudentProfile() {
         {/* XP bar */}
         <div className="mt-4">
           <div className="flex justify-between text-xs text-white/70 mb-1.5">
-            <span>{student.totalXP % XP_PER_LEVEL} / {XP_PER_LEVEL} XP vers le niveau {student.level + 1}</span>
+            <span>{getLevel(student.totalXP)} · {student.totalXP} XP</span>
             <span className="font-bold text-white">{student.totalXP} XP total</span>
           </div>
           <div className="h-2 bg-white/20 rounded-full overflow-hidden">
@@ -329,7 +329,7 @@ export default function StudentProfile() {
                   <label className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider block mb-2">3. Choisir un accessoire (Niveaux débloqués)</label>
                   <div className="grid grid-cols-2 gap-2">
                     {Object.entries(ACCESSORIES).map(([key, acc]) => {
-                      const unlocked = student.level >= acc.minLevel
+                      const unlocked = getLevel(student.totalXP) >= acc.minLevel
                       const isSelected = tempAvatar.accessory === key
                       return (
                         <button

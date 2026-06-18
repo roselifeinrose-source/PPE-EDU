@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { Maximize, Minimize, Users, Trophy, TrendingUp, Radio } from 'lucide-react'
 import useGameStore from '../store/useGameStore'
+import { getLevel } from '../constants'
 
 export default function PresentationMode({ gameId, onClose }) {
   const games = useGameStore((s) => s.games)
@@ -95,7 +96,7 @@ export default function PresentationMode({ gameId, onClose }) {
                     </div>
                     <div className="flex-1 min-w-0">
                       <div className="font-semibold truncate">{student?.name || 'Inconnu'}</div>
-                      <div className="text-sm text-white/60">Niveau {student?.level || 1}</div>
+                      <div className="text-sm text-white/60">Niveau {getLevel(student?.totalXP || 0)}</div>
                     </div>
                     <div className="text-right">
                       <div className="text-2xl font-bold">{result.score}%</div>

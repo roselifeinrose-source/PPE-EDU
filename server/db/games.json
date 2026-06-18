@@ -354,75 +354,73 @@
       }
     },
     {
-      "id": "g1780778716981",
-      "createdAt": "2026-06-06T20:45:16.981Z",
+      "id": "g1781804648203",
+      "createdAt": "2026-06-18T17:44:08.203Z",
       "subject": "Informatique",
-      "gameType": "quiz",
-      "title": "logo",
-      "topic": "qlgorithme",
-      "content": {
-        "questions": [
-          {
-            "id": "q1",
-            "question": "Quel est le radical (root) du mot 'unbelievable' et quelle est sa catégorie grammaticale ?",
-            "options": [
-              "believe (Verbe)",
-              "unbelieve (Adjectif)",
-              "believable (Nom)",
-              "believe (Nom)"
-            ],
-            "correctIndex": 0
-          },
-          {
-            "id": "q2",
-            "question": "Parmi les morphèmes suivants, lequel est un morphème flexionnel (inflectional) ?",
-            "options": [
-              "-ation",
-              "-ly",
-              "-ful",
-              "-est"
-            ],
-            "correctIndex": 3
-          },
-          {
-            "id": "q3",
-            "question": "Quel est le type de formation utilisé pour le mot 'Sunlight' ?",
-            "options": [
-              "La réduplication (Reduplication)",
-              "La composition (Compounding)",
-              "La dérivation inverse (Back-formation)",
-              "Le changement interne (Internal Change)"
-            ],
-            "correctIndex": 1
-          },
-          {
-            "id": "q4",
-            "question": "Dans l'analyse syntaxique, à quel type de groupe (Phrase) correspond l'expression 'highly complex' ?",
-            "options": [
-              "Groupe adjectival (Adjective Phrase - AdjP)",
-              "Groupe nominal (Noun Phrase - NP)",
-              "Groupe adverbial (Adverb Phrase - AdvP)",
-              "Groupe prépositionnel (Prepositional Phrase - PP)"
-            ],
-            "correctIndex": 0
-          },
-          {
-            "id": "q5",
-            "question": "Quel est le type de la phrase suivante : 'Mary enjoys reading detective stories.' ?",
-            "options": [
-              "Phrase complexe (Complex)",
-              "Phrase composée-complexe (Compound-Complex)",
-              "Phrase simple (Simple)",
-              "Phrase composée (Compound)"
-            ],
-            "correctIndex": 2
-          }
-        ]
-      },
+      "topic": "Généré par IA (simulation)",
+      "gameType": "dropping",
+      "isSimulation": true,
       "analytics": {
-        "attempts": 1,
+        "attempts": 0,
         "averageScore": 0,
         "failedConcepts": []
+      },
+      "title": "Tri: Simulation",
+      "content": {
+        "items": [
+          {
+            "id": "g1781804648203_i1",
+            "name": "USB",
+            "category": "stockage"
+          },
+          {
+            "id": "g1781804648203_i2",
+            "name": "RAM",
+            "category": "memoire"
+          },
+          {
+            "id": "g1781804648203_i3",
+            "name": "CPU",
+            "category": "processeur"
+          },
+          {
+            "id": "g1781804648203_i4",
+            "name": "Clavier",
+            "category": "entree"
+          },
+          {
+            "id": "g1781804648203_i5",
+            "name": "Écran",
+            "category": "sortie"
+          },
+          {
+            "id": "g1781804648203_i6",
+            "name": "SSD",
+            "category": "stockage"
+          }
+        ],
+        "categories": [
+          {
+            "id": "stockage",
+            "label": "P. Stockage"
+          },
+          {
+            "id": "memoire",
+            "label": "Mémoire"
+          },
+          {
+            "id": "processeur",
+            "label": "Processeur"
+          },
+          {
+            "id": "entree",
+            "label": "P. Entrée"
+          },
+          {
+            "id": "sortie",
+            "label": "P. Sortie"
+          }
+        ]
       }
     }
   ],
