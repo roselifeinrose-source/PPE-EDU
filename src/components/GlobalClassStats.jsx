@@ -1,5 +1,6 @@
 import { TrendingUp, Users, BarChart3, Award, AlertTriangle } from 'lucide-react'
 import useGameStore from '../store/useGameStore'
+import { getLevel } from '../constants'
 
 export default function GlobalClassStats() {
   const games = useGameStore((s) => s.games)
@@ -37,7 +38,7 @@ export default function GlobalClassStats() {
     { label: 'Taux de Complétion', value: `${completionRate}%`, icon: Users, color: 'indigo', desc: `${studentsWithGames.length}/${students.length} élèves actifs` },
     { label: 'Score Moyen Classe', value: `${avgScore}%`, icon: TrendingUp, color: 'emerald', desc: `${totalAttempts} tentatives au total` },
     { label: 'Jeux par Élève', value: avgGamesPerStudent, icon: BarChart3, color: 'amber', desc: 'Moyenne des parties jouées' },
-    { label: 'Meilleur Élève', value: topStudent?.name?.split(' ')[0] || '—', icon: Award, color: 'purple', desc: topStudent ? `${topStudent.totalXP} XP · Niveau ${topStudent.level}` : 'Aucune donnée' },
+    { label: 'Meilleur Élève', value: topStudent?.name?.split(' ')[0] || '—', icon: Award, color: 'purple', desc: topStudent ? `${topStudent.totalXP} XP · Niveau ${getLevel(topStudent.totalXP)}` : 'Aucune donnée' },
   ]
 
   return (

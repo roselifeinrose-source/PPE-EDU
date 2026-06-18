@@ -1,5 +1,5 @@
 import { useState, useMemo, lazy, Suspense } from 'react'
-import { Search, Download, Archive, Trash2, X, Award, FileText, LayoutGrid, List } from 'lucide-react'
+import { Search, Download, Archive, Trash2, X, Award, FileText, LayoutGrid, List, Gamepad2 } from 'lucide-react'
 import useGameStore from '../../store/useGameStore'
 import useSettingsStore from '../../store/useSettingsStore'
 import { downloadQTI } from '../../utils/qtiExport'
@@ -13,6 +13,7 @@ import FogMode from '../../components/FogMode'
 import ActivityLogs from '../../components/ActivityLogs'
 import ManualGrading from '../../components/ManualGrading'
 import GenerationModal from '../../components/GenerationModal'
+import GameManager from '../../components/GameManager'
 
 const QuizGame = lazy(() => import('../../games/QuizGame'))
 const PuzzleGame = lazy(() => import('../../games/PuzzleGame'))
@@ -40,6 +41,7 @@ export default function TeacherGamesPage() {
   const [editTitle, setEditTitle] = useState('')
   const [editTopic, setEditTopic] = useState('')
   const [editContent, setEditContent] = useState(null)
+  const [activeTab, setActiveTab] = useState('games')
   const [editComment, setEditComment] = useState('')
   const [deletingGame, setDeletingGame] = useState(null)
   const [previewId, setPreviewId] = useState(null)
@@ -127,6 +129,20 @@ export default function TeacherGamesPage() {
 
   return (
     <div className="space-y-6">
+      {/* Tab bar */}
+      <div className="flex items-center gap-1 bg-slate-100 dark:bg-slate-900 rounded-xl p-1 w-fit">
+        <button onClick={() => setActiveTab('games')} className={`flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-medium transition-all ${activeTab === 'games' ? 'bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 shadow-sm' : 'text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-300'}`}>
+          <Award size={15} /> Mes Jeux
+        </button>
+        <button onClick={() => setActiveTab('manage')} className={`flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-medium transition-all ${activeTab === 'manage' ? 'bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 shadow-sm' : 'text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-300'}`}>
+          <Gamepad2 size={15} /> Gestion rapide
+        </button>
+      </div>
+
+      {activeTab === 'manage' ? (
+        <GameManager />
+      ) : (
+        <>
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-bold text-slate-900 dark:text-slate-100">Mes Jeux</h1>
         {selectedIds.length > 0 && (
@@ -325,6 +341,8 @@ export default function TeacherGamesPage() {
             </div>
           </div>
         </div>
+      )}
+        </>
       )}
     </div>
   )

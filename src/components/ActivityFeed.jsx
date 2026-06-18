@@ -13,11 +13,11 @@ export default function ActivityFeed() {
     return () => clearTimeout(t)
   }, [])
 
-  // Generate some realistic mock feed items if feed is empty to make it look alive!
-  const displayFeed = useMemo(() => {
-    if (activityFeed && activityFeed.length > 0) return activityFeed
+  const isMock = !activityFeed || activityFeed.length === 0
 
-    // Fallback/Mock activity feed
+  const displayFeed = useMemo(() => {
+    if (!isMock) return activityFeed
+
     const now = new Date()
     return [
       {
@@ -25,24 +25,24 @@ export default function ActivityFeed() {
         type: 'level_up',
         studentName: 'Amina El Amrani',
         detail: 'est passée au Niveau 5 ! 🚀',
-        timestamp: new Date(now - 1200000).toISOString() // 20m ago
+        timestamp: new Date(now - 1200000).toISOString()
       },
       {
         id: 'mock2',
         type: 'perfect_score',
         studentName: 'Youssef Benali',
         detail: 'a obtenu 100% sur "Associez les Périphériques" ! 🌟',
-        timestamp: new Date(now - 3600000).toISOString() // 1h ago
+        timestamp: new Date(now - 3600000).toISOString()
       },
       {
         id: 'mock3',
         type: 'challenge_sent',
         studentName: 'Mehdi Ouazzani',
         detail: 'a défié Youssef Benali sur "Les Composants de l\'Ordinateur" ⚔️',
-        timestamp: new Date(now - 7200000).toISOString() // 2h ago
+        timestamp: new Date(now - 7200000).toISOString()
       }
     ]
-  }, [activityFeed])
+  }, [activityFeed, isMock])
 
   const getIcon = (type) => {
     switch (type) {
@@ -78,6 +78,11 @@ export default function ActivityFeed() {
       <h3 className="text-sm font-semibold text-slate-900 dark:text-slate-100 mb-4 flex items-center gap-2">
         <MessageSquare size={16} className="text-indigo-500" />
         Activité de la classe
+        {isMock && (
+          <span className="ml-auto text-[10px] font-medium text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-900/30 px-2 py-0.5 rounded-full border border-amber-200 dark:border-amber-700">
+            Mode démo
+          </span>
+        )}
       </h3>
       <div className="space-y-4 max-h-[280px] overflow-y-auto pr-1">
         {displayFeed.map((item) => (

@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { X, Moon, Sun, UserPlus, Trash2, Palette, Gamepad2 } from 'lucide-react'
 import useSettingsStore from '../store/useSettingsStore'
 import useGameStore from '../store/useGameStore'
+import { getLevel } from '../constants'
 
 const ACCENT_COLORS = [
   { id: 'indigo', value: '#6366f1', label: 'Indigo' },
@@ -163,7 +164,7 @@ export default function SettingsModal({ open, onClose }) {
                   <div key={s.id} className="flex items-center justify-between bg-slate-50 dark:bg-slate-900 rounded-lg px-3 py-2 border border-slate-200 dark:border-slate-700">
                     <div className="min-w-0 flex-1">
                       <div className="text-sm font-medium text-slate-900 dark:text-slate-100 truncate">{s.name}</div>
-                      <div className="text-[11px] text-slate-500 dark:text-slate-400">Niveau {s.level} · {s.totalXP} XP</div>
+                      <div className="text-[11px] text-slate-500 dark:text-slate-400">Niveau {getLevel(s.totalXP)} · {s.totalXP} XP</div>
                     </div>
                     <button
                       onClick={() => {

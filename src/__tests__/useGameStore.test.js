@@ -1,5 +1,6 @@
 import { describe, it, expect, beforeEach } from 'vitest'
 import useGameStore from '../store/useGameStore'
+import { getLevel } from '../constants'
 
 beforeEach(() => {
   useGameStore.setState({
@@ -41,7 +42,7 @@ describe('useGameStore', () => {
     useGameStore.getState().submitGameResult('s1', 'g1', 80, 40, [], ['Concept1'])
     const student = useGameStore.getState().students.find((s) => s.id === 's1')
     expect(student.totalXP).toBe(140)
-    expect(student.level).toBe(1)
+    expect(getLevel(student.totalXP)).toBe(1)
     expect(student.completedGames).toHaveLength(1)
   })
 
@@ -84,7 +85,7 @@ describe('useGameStore', () => {
     expect(game.analytics.attempts).toBe(0)
     const student = useGameStore.getState().students.find((s) => s.id === 's1')
     expect(student.totalXP).toBe(0)
-    expect(student.level).toBe(1)
+    expect(getLevel(student.totalXP)).toBe(1)
     expect(student.completedGames).toHaveLength(0)
   })
 
@@ -94,13 +95,13 @@ describe('useGameStore', () => {
     expect(students).toHaveLength(2)
     const newStudent = students.find((s) => s.name === 'New Kid')
     expect(newStudent.totalXP).toBe(0)
-    expect(newStudent.level).toBe(1)
+    expect(getLevel(newStudent.totalXP)).toBe(1)
   })
 
   it('level scales correctly with XP', () => {
     useGameStore.getState().submitGameResult('s1', 'g1', 100, 500, [], [])
     const student = useGameStore.getState().students.find((s) => s.id === 's1')
     expect(student.totalXP).toBe(600)
-    expect(student.level).toBe(3)
+    expect(getLevel(student.totalXP)).toBe(2)
   })
 })

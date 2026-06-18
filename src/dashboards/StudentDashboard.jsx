@@ -14,7 +14,7 @@ import OnboardingModal from '../components/OnboardingModal'
 import ZenBreak from '../components/ZenBreak'
 import MiniGame from '../components/MiniGame'
 import MentorSystem from '../components/MentorSystem'
-import { XP_PER_LEVEL } from '../constants'
+import { XP_PER_LEVEL, getLevel } from '../constants'
 import { playSound } from '../utils/soundService'
 import avatarEvents from '../utils/avatarEvents'
 
@@ -47,16 +47,16 @@ export default function StudentDashboard() {
   const [gameLayout, setGameLayout] = useState('list')
 
   const student = students.find((s) => s.id === currentStudentId) || (user?.id === currentStudentId ? user : null)
-  const prevLevelRef = useRef(student?.level)
+  const prevLevelRef = useRef(getLevel(student?.totalXP || 0))
 
   // Level Up Toast and sound effect trigger
   useEffect(() => {
-    if (student && prevLevelRef.current !== undefined && student.level > prevLevelRef.current) {
-      setLevelUpLevel(student.level)
+      if (student && prevLevelRef.current !== undefined && getLevel(student.totalXP) > prevLevelRef.current) {
+      setLevelUpLevel(getLevel(student.totalXP))
       playSound.levelUp()
       avatarEvents.emit('levelup')
     }
-    if (student) prevLevelRef.current = student.level
+    if (student) prevLevelRef.current = getLevel(student.totalXP)
   }, [student])
 
   // Welcome animation on mount
@@ -147,7 +147,7 @@ export default function StudentDashboard() {
                 </div>
                 <div>
                   <h1 className="text-xl font-bold text-slate-900 dark:text-slate-100">{student.name}</h1>
-                  <p className="text-sm text-slate-500 dark:text-slate-400">Niveau {student.level}</p>
+                  <p className="text-sm text-slate-500 dark:text-slate-400">Niveau {getLevel(student.totalXP)}</p>
                 </div>
               </div>
               <div className="flex items-center gap-1.5 text-indigo-650 dark:text-indigo-400 font-extrabold text-lg">
@@ -161,7 +161,7 @@ export default function StudentDashboard() {
               </div>
               <span className="text-xs text-slate-500 dark:text-slate-400">{student.totalXP % XP_PER_LEVEL} / {XP_PER_LEVEL} XP</span>
             </div>
-            <p className="text-xs text-slate-400 dark:text-slate-500 mt-1.5">Niveau {student.level} &rarr; Niveau {student.level + 1}</p>
+            <p className="text-xs text-slate-400 dark:text-slate-500 mt-1.5">Niveau {getLevel(student.totalXP)} &rarr; Niveau {getLevel(student.totalXP) + 1}</p>
           </div>
 
           {/* Navigation Tabs */}

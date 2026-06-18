@@ -242,9 +242,6 @@ export default function FloatingAvatar() {
           width: PET_SIZE,
           overflow: 'visible',
           transform: `scaleX(${facingRight ? 1 : -1})`,
-          transition: isMoving
-            ? `left ${moveDur}ms ease-in-out, top ${moveDur}ms ease-in-out`
-            : 'none',
           zIndex: 9999,
           opacity: visible ? 1 : 0,
           scale: visible ? '1' : '0.5',

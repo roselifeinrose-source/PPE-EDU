@@ -5,6 +5,7 @@ import MetricCard from '../../components/MetricCard'
 import SessionComparison from '../../components/SessionComparison'
 import SessionReport from '../../components/SessionReport'
 import AIAnalytics from '../../components/AIAnalytics'
+import { getLevel } from '../../constants'
 
 const COUNTDOWN_SECONDS = 5
 
@@ -222,7 +223,7 @@ export default function TeacherAnalyticsPage() {
                         <div className="min-w-0">
                           <div className="text-sm font-medium text-slate-900 dark:text-slate-100 truncate">{student.name}</div>
                           <div className="text-[11px] text-slate-500 dark:text-slate-400">
-                            Niveau {student.level} · {student.totalXP} XP · {gameResults.length} partie{gameResults.length > 1 ? 's' : ''}
+                            Niveau {getLevel(student.totalXP)} · {student.totalXP} XP · {gameResults.length} partie{gameResults.length > 1 ? 's' : ''}
                             {gameResults.length > 0 && ` · ${avgStudentScore}% moyen`}
                           </div>
                         </div>

@@ -6,7 +6,7 @@ import useGameStore from '../store/useGameStore'
 import useTheme from '../hooks/useTheme'
 import SettingsModal from './SettingsModal'
 import TeacherNotifications from './TeacherNotifications'
-import { XP_PER_LEVEL } from '../constants'
+import { XP_PER_LEVEL, getLevel } from '../constants'
 
 export default function Navbar() {
   const [settingsOpen, setSettingsOpen] = useState(false)
@@ -66,7 +66,7 @@ export default function Navbar() {
                 <div className="hidden sm:flex items-center gap-3 bg-slate-50 dark:bg-slate-900/50 rounded-xl px-4 py-1.5">
                   <div className="text-right">
                     <div className="text-sm font-medium text-slate-900 dark:text-slate-100">{currentStudent.name}</div>
-                    <div className="text-xs text-slate-500 dark:text-slate-400">Niveau {currentStudent.level}</div>
+                    <div className="text-xs text-slate-500 dark:text-slate-400">Niveau {getLevel(currentStudent.totalXP)}</div>
                   </div>
                   <div className="w-24">
                     <div className="h-1.5 bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden">
@@ -143,7 +143,7 @@ export default function Navbar() {
             {role === 'student' && currentStudent && (
               <div className="pt-2 border-t border-slate-200 dark:border-slate-700">
                 <div className="text-sm font-medium text-slate-900 dark:text-slate-100">{currentStudent.name}</div>
-                <div className="text-xs text-slate-500 dark:text-slate-400">Niveau {currentStudent.level} &middot; {currentStudent.totalXP} XP</div>
+                <div className="text-xs text-slate-500 dark:text-slate-400">Niveau {getLevel(currentStudent.totalXP)} &middot; {currentStudent.totalXP} XP</div>
               </div>
             )}
             <button onClick={handleLogout} className="w-full text-left text-sm text-red-600 dark:text-red-400 font-medium py-1 flex items-center gap-2">
