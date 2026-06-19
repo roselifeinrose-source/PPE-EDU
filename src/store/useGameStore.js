@@ -179,7 +179,6 @@ const useGameStore = create(
       },
 
       updateStudentAvatar: async (studentId, avatar) => {
-        if (!teacherGuard()) return
         try {
           await studentAPI.update(studentId, { avatar })
         } catch (err) {
@@ -190,18 +189,19 @@ const useGameStore = create(
       },
 
       addGame: async (game) => {
+        const newGame = { ...game, publishedAt: game.publishedAt === undefined ? null : game.publishedAt }
         try {
-          const created = await gameAPI.create(game)
+          const created = await gameAPI.create(newGame)
           set((state) => {
-            const logs = [{ id: `log${Date.now()}`, action: 'game_created', details: game.title, timestamp: new Date().toISOString() }, ...state.activityLogs].slice(0, 200)
-            return { games: [...state.games, { ...game, id: created.id }], activityLogs: logs }
+            const logs = [{ id: `log${Date.now()}`, action: 'game_created', details: newGame.title, timestamp: new Date().toISOString() }, ...state.activityLogs].slice(0, 200)
+            return { games: [...state.games, { ...newGame, id: created.id }], activityLogs: logs }
           })
         } catch (err) {
           console.warn('addGame API failed, saving locally:', err.message)
           notify('Jeu sauvegardé localement (serveur inaccessible)')
           set((state) => {
-            const logs = [{ id: `log${Date.now()}`, action: 'game_created', details: game.title, timestamp: new Date().toISOString() }, ...state.activityLogs].slice(0, 200)
-            return { games: [...state.games, game], activityLogs: logs }
+            const logs = [{ id: `log${Date.now()}`, action: 'game_created', details: newGame.title, timestamp: new Date().toISOString() }, ...state.activityLogs].slice(0, 200)
+            return { games: [...state.games, newGame], activityLogs: logs }
           })
         }
       },

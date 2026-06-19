@@ -53,7 +53,55 @@
         "averageScore": 80,
         "failedConcepts": []
       },
-      "publishedAt": null
+      "publishedAt": null,
+      "versions": [
+        {
+          "savedAt": "2026-06-18T23:40:51.003Z",
+          "content": {
+            "questions": [
+              {
+                "id": "q1",
+                "question": "Quel composant est considéré comme le \"cerveau\" de l'ordinateur ?",
+                "options": [
+                  "RAM",
+                  "CPU",
+                  "Disque Dur",
+                  "Carte Graphique"
+                ],
+                "correctIndex": 1,
+                "concept": "Architecture"
+              },
+              {
+                "id": "q2",
+                "question": "À quoi sert la RAM ?",
+                "options": [
+                  "Stocker des fichiers",
+                  "Exécuter des programmes",
+                  "Afficher l'image",
+                  "Refroidir le PC"
+                ],
+                "correctIndex": 1,
+                "concept": "Mémoire"
+              },
+              {
+                "id": "q3",
+                "question": "Quel périphérique est un périphérique d'entrée ?",
+                "options": [
+                  "Écran",
+                  "Imprimante",
+                  "Clavier",
+                  "Haut-parleur"
+                ],
+                "correctIndex": 2,
+                "concept": "Périphériques"
+              }
+            ]
+          },
+          "title": "Les Composants de l'Ordinateur",
+          "topic": "Architecture"
+        }
+      ],
+      "comment": ""
     },
     {
       "id": "g2",
@@ -83,7 +131,7 @@
         ]
       },
       "analytics": {
-        "attempts": 3,
+        "attempts": 4,
         "averageScore": 100,
         "failedConcepts": []
       }
@@ -354,8 +402,220 @@
       }
     },
     {
-      "id": "g1781804648203",
-      "createdAt": "2026-06-18T17:44:08.203Z",
+      "id": "g1781828786326",
+      "createdAt": "2026-06-19T00:26:26.326Z",
+      "subject": "Informatique",
+      "title": "Sécurité informatique",
+      "topic": "Sécurité",
+      "gameType": "quiz",
+      "content": {
+        "questions": [
+          {
+            "id": "t7_q1",
+            "question": "Qu'est-ce qu'un mot de passe fort ?",
+            "options": [
+              "123456",
+              "mon-chat",
+              "Tr0ub4dor&3",
+              "password"
+            ],
+            "correctIndex": 2,
+            "concept": "Sécurité"
+          },
+          {
+            "id": "t7_q2",
+            "question": "À quoi sert un pare-feu ?",
+            "options": [
+              "Accélérer Internet",
+              "Filtrer le trafic réseau",
+              "Stocker des fichiers",
+              "Afficher des vidéos"
+            ],
+            "correctIndex": 1,
+            "concept": "Réseaux"
+          }
+        ]
+      },
+      "analytics": {
+        "attempts": 1,
+        "averageScore": 100,
+        "failedConcepts": []
+      }
+    },
+    {
+      "id": "g1781828814861",
+      "createdAt": "2026-06-19T00:26:54.861Z",
+      "subject": "Informatique",
+      "title": "Composants de l'ordinateur",
+      "topic": "Architecture",
+      "gameType": "quiz",
+      "content": {
+        "questions": [
+          {
+            "id": "t1_q1",
+            "question": "Quel composant est le \"cerveau\" de l'ordinateur ?",
+            "options": [
+              "RAM",
+              "CPU",
+              "Disque Dur",
+              "Carte Graphique"
+            ],
+            "correctIndex": 1,
+            "concept": "Architecture"
+          },
+          {
+            "id": "t1_q2",
+            "question": "À quoi sert la RAM ?",
+            "options": [
+              "Stocker des fichiers",
+              "Exécuter des programmes en cours",
+              "Afficher l'image",
+              "Refroidir le PC"
+            ],
+            "correctIndex": 1,
+            "concept": "Mémoire"
+          },
+          {
+            "id": "t1_q3",
+            "question": "Quel périphérique est un périphérique d'entrée ?",
+            "options": [
+              "Écran",
+              "Imprimante",
+              "Clavier",
+              "Haut-parleur"
+            ],
+            "correctIndex": 2,
+            "concept": "Périphériques"
+          },
+          {
+            "id": "t1_q4",
+            "question": "Quelle est la fonction du disque dur ?",
+            "options": [
+              "Traiter les données",
+              "Stocker les données durablement",
+              "Connecter à Internet",
+              "Produire du son"
+            ],
+            "correctIndex": 1,
+            "concept": "Stockage"
+          }
+        ]
+      },
+      "analytics": {
+        "attempts": 0,
+        "averageScore": 0,
+        "failedConcepts": []
+      },
+      "publishedAt": null
+    },
+    {
+      "id": "g1781828925243",
+      "createdAt": "2026-06-19T00:28:45.244Z",
+      "subject": "Informatique",
+      "topic": "Généré par IA (simulation)",
+      "gameType": "puzzle",
+      "isSimulation": true,
+      "analytics": {
+        "attempts": 0,
+        "averageScore": 0,
+        "failedConcepts": []
+      },
+      "title": "Puzzle: Simulation",
+      "content": {
+        "pairs": [
+          {
+            "id": "g1781828925243_p1",
+            "left": "Concept simulé 1",
+            "right": "Définition 1"
+          },
+          {
+            "id": "g1781828925243_p2",
+            "left": "Concept simulé 2",
+            "right": "Définition 2"
+          }
+        ]
+      },
+      "publishedAt": null,
+      "archived": true
+    },
+    {
+      "id": "g1781829117209",
+      "createdAt": "2026-06-19T00:31:57.209Z",
+      "subject": "Informatique",
+      "topic": "Généré par IA (simulation)",
+      "gameType": "puzzle",
+      "isSimulation": true,
+      "analytics": {
+        "attempts": 0,
+        "averageScore": 0,
+        "failedConcepts": []
+      },
+      "title": "Puzzle: Simulation",
+      "content": {
+        "pairs": [
+          {
+            "id": "g1781829117209_p1",
+            "left": "Concept simulé 1",
+            "right": "Définition 1"
+          },
+          {
+            "id": "g1781829117209_p2",
+            "left": "Concept simulé 2",
+            "right": "Définition 2"
+          }
+        ]
+      },
+      "publishedAt": null,
+      "archived": true
+    },
+    {
+      "id": "g1781829297392",
+      "createdAt": "2026-06-19T00:34:57.392Z",
+      "subject": "Informatique",
+      "topic": "Généré par IA (simulation)",
+      "gameType": "cloze",
+      "isSimulation": true,
+      "analytics": {
+        "attempts": 0,
+        "averageScore": 0,
+        "failedConcepts": []
+      },
+      "title": "Texte à trous: Simulation",
+      "content": {
+        "text": "Pour faire fonctionner l'ordinateur, le [blank1] traite les données en les chargeant de façon temporaire dans la [blank2]. Les fichiers permanents sont quant à eux conservés dans le [blank3].",
+        "blanks": {
+          "blank1": {
+            "correct": "processeur",
+            "options": [
+              "processeur",
+              "clavier",
+              "réseau"
+            ]
+          },
+          "blank2": {
+            "correct": "RAM",
+            "options": [
+              "RAM",
+              "ROM",
+              "disque dur"
+            ]
+          },
+          "blank3": {
+            "correct": "disque dur",
+            "options": [
+              "disque dur",
+              "processeur",
+              "bus"
+            ]
+          }
+        }
+      },
+      "publishedAt": null,
+      "archived": true
+    },
+    {
+      "id": "g1781829343502",
+      "createdAt": "2026-06-19T00:35:43.502Z",
       "subject": "Informatique",
       "topic": "Généré par IA (simulation)",
       "gameType": "dropping",
@@ -369,32 +629,32 @@
       "content": {
         "items": [
           {
-            "id": "g1781804648203_i1",
+            "id": "g1781829343502_i1",
             "name": "USB",
             "category": "stockage"
           },
           {
-            "id": "g1781804648203_i2",
+            "id": "g1781829343502_i2",
             "name": "RAM",
             "category": "memoire"
           },
           {
-            "id": "g1781804648203_i3",
+            "id": "g1781829343502_i3",
             "name": "CPU",
             "category": "processeur"
           },
           {
-            "id": "g1781804648203_i4",
+            "id": "g1781829343502_i4",
             "name": "Clavier",
             "category": "entree"
           },
           {
-            "id": "g1781804648203_i5",
+            "id": "g1781829343502_i5",
             "name": "Écran",
             "category": "sortie"
           },
           {
-            "id": "g1781804648203_i6",
+            "id": "g1781829343502_i6",
             "name": "SSD",
             "category": "stockage"
           }
@@ -421,7 +681,178 @@
             "label": "P. Sortie"
           }
         ]
-      }
+      },
+      "publishedAt": null,
+      "archived": true
+    },
+    {
+      "id": "g1781829376291",
+      "createdAt": "2026-06-19T00:36:16.291Z",
+      "subject": "Informatique",
+      "topic": "Généré par IA (simulation)",
+      "gameType": "quiz",
+      "isSimulation": true,
+      "analytics": {
+        "attempts": 0,
+        "averageScore": 0,
+        "failedConcepts": []
+      },
+      "title": "Quiz: Simulation",
+      "content": {
+        "questions": [
+          {
+            "id": "g1781829376291_q1",
+            "question": "Question simulée à partir du texte",
+            "options": [
+              "Option A",
+              "Option B",
+              "Option C",
+              "Option D"
+            ],
+            "correctIndex": 0
+          },
+          {
+            "id": "g1781829376291_q2",
+            "question": "Question simulée 2",
+            "options": [
+              "Option A",
+              "Option B",
+              "Option C",
+              "Option D"
+            ],
+            "correctIndex": 2
+          }
+        ]
+      },
+      "publishedAt": null,
+      "archived": true
+    },
+    {
+      "id": "g1781829463735",
+      "createdAt": "2026-06-19T00:37:43.735Z",
+      "subject": "Informatique",
+      "topic": "Généré par IA (simulation)",
+      "gameType": "quiz",
+      "isSimulation": true,
+      "analytics": {
+        "attempts": 0,
+        "averageScore": 0,
+        "failedConcepts": []
+      },
+      "title": "Quiz: Simulation",
+      "content": {
+        "questions": [
+          {
+            "id": "g1781829463735_q1",
+            "question": "Question simulée à partir du texte",
+            "options": [
+              "Option A",
+              "Option B",
+              "Option C",
+              "Option D"
+            ],
+            "correctIndex": 0
+          },
+          {
+            "id": "g1781829463735_q2",
+            "question": "Question simulée 2",
+            "options": [
+              "Option A",
+              "Option B",
+              "Option C",
+              "Option D"
+            ],
+            "correctIndex": 2
+          }
+        ]
+      },
+      "publishedAt": null,
+      "archived": true
+    },
+    {
+      "id": "g1781829510360",
+      "createdAt": "2026-06-19T00:38:30.360Z",
+      "subject": "Informatique",
+      "topic": "Généré par IA (simulation)",
+      "gameType": "quiz",
+      "isSimulation": true,
+      "analytics": {
+        "attempts": 0,
+        "averageScore": 0,
+        "failedConcepts": []
+      },
+      "title": "Quiz: Simulation",
+      "content": {
+        "questions": [
+          {
+            "id": "g1781829510360_q1",
+            "question": "Question simulée à partir du texte",
+            "options": [
+              "Option A",
+              "Option B",
+              "Option C",
+              "Option D"
+            ],
+            "correctIndex": 0
+          },
+          {
+            "id": "g1781829510360_q2",
+            "question": "Question simulée 2",
+            "options": [
+              "Option A",
+              "Option B",
+              "Option C",
+              "Option D"
+            ],
+            "correctIndex": 2
+          }
+        ]
+      },
+      "publishedAt": null,
+      "archived": true
+    },
+    {
+      "id": "g1781829676684",
+      "createdAt": "2026-06-19T00:41:16.684Z",
+      "subject": "Informatique",
+      "gameType": "puzzle",
+      "title": "Puzzle: Microsoft Excel",
+      "topic": "Excel",
+      "content": {
+        "pairs": [
+          {
+            "id": "p1",
+            "left": "Classeur",
+            "right": "Fichier Excel (.xlsx)"
+          },
+          {
+            "id": "p2",
+            "left": "Cellule",
+            "right": "Intersection d'une ligne et d'une colonne"
+          },
+          {
+            "id": "p3",
+            "left": "Formule",
+            "right": "Calcul commençant toujours par le signe ="
+          },
+          {
+            "id": "p4",
+            "left": "Référence absolue",
+            "right": "Référence qui ne change pas quand on recopie la formule ($A$1)"
+          },
+          {
+            "id": "p5",
+            "left": "Poignée de recopie",
+            "right": "Petit carré en bas à droite d'une cellule pour étendre"
+          }
+        ]
+      },
+      "analytics": {
+        "attempts": 0,
+        "averageScore": 0,
+        "failedConcepts": []
+      },
+      "publishedAt": null
     }
   ],
   "activityLogs": [],
