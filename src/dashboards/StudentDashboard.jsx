@@ -216,7 +216,7 @@ export default function StudentDashboard() {
               </div>
               <div className={gameLayout === 'grid' ? 'grid grid-cols-2 gap-4' : 'grid gap-4'}>
                 {games
-                  .filter((g) => !g.isStudentCreated && !g.archived)
+                  .filter((g) => !g.isStudentCreated && !g.archived && (g.publishedAt === undefined || (g.publishedAt && new Date(g.publishedAt) <= new Date())))
                   .map((game) => {
                     const Icon = gameIcons[game.gameType] || BookOpen
                     const completed = student.completedGames.find((c) => c.gameId === game.id)

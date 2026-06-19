@@ -98,13 +98,15 @@ export default function Navbar() {
                 {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
               </button>
 
-              <button
-                onClick={() => setSettingsOpen(true)}
-                className="p-2 rounded-lg text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-700 transition-all duration-200"
-                aria-label="Paramètres"
-              >
-                <Settings size={18} />
-              </button>
+              {role === 'teacher' && (
+                <button
+                  onClick={() => setSettingsOpen(true)}
+                  className="p-2 rounded-lg text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-700 transition-all duration-200"
+                  aria-label="Paramètres"
+                >
+                  <Settings size={18} />
+                </button>
+              )}
 
               <button
                 onClick={handleLogout}

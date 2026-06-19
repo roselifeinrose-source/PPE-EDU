@@ -141,8 +141,8 @@
       "id": "s1780763249721",
       "name": "Mouad allaoui",
       "password": "student123",
-      "totalXP": 2000,
-      "level": 7,
+      "totalXP": 2130,
+      "level": 8,
       "completedGames": [
         {
           "gameId": "g1",
@@ -209,6 +209,24 @@
           "score": 0,
           "xpGained": 0,
           "date": "2026-06-06T20:49:55.006Z"
+        },
+        {
+          "gameId": "daily",
+          "score": 40,
+          "xpGained": 30,
+          "date": "2026-06-19T00:14:54.219Z"
+        },
+        {
+          "gameId": "g2",
+          "score": 100,
+          "xpGained": 50,
+          "date": "2026-06-19T00:15:15.988Z"
+        },
+        {
+          "gameId": "g1781828786326",
+          "score": 100,
+          "xpGained": 50,
+          "date": "2026-06-19T00:43:24.517Z"
         }
       ],
       "bestScores": {
@@ -221,17 +239,19 @@
         "g1780763703822": 100,
         "mini-1780764468692": 2,
         "mini-1780778912513": 2,
-        "g1780778716981": 0
+        "g1780778716981": 0,
+        "daily": 40,
+        "g1781828786326": 100
       },
       "groupId": "g3",
       "achievements": [],
       "dailyStreak": 1,
-      "lastDailyDate": "Sat Jun 06 2026",
+      "lastDailyDate": "Fri Jun 19 2026",
       "dailyChallengesCompleted": 0,
       "playTimestamps": [],
       "avatar": {
-        "emoji": "🦊",
-        "color": "from-pink-500 to-rose-500",
+        "emoji": "🐼",
+        "color": "from-emerald-400 to-teal-600",
         "accessory": "none"
       },
       "preferences": {

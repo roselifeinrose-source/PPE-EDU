@@ -1,7 +1,9 @@
 import { useState, useEffect } from 'react'
-import { X, Moon, Sun, UserPlus, Trash2, Palette, Gamepad2 } from 'lucide-react'
+import { X, Moon, Sun, UserPlus, Trash2, Palette, Gamepad2, Brain } from 'lucide-react'
 import useSettingsStore from '../store/useSettingsStore'
 import useGameStore from '../store/useGameStore'
+import useProviderStore from '../store/useProviderStore'
+import useAuthStore from '../store/useAuthStore'
 import { getLevel } from '../constants'
 
 const ACCENT_COLORS = [
@@ -23,7 +25,9 @@ const GAME_THEMES = [
 
 export default function SettingsModal({ open, onClose }) {
   const { theme, setTheme, accentColor, setAccentColor, gameTheme, setGameTheme } = useSettingsStore()
+  const { provider, geminiApiKey, geminiModel, geminiModels, opencodeBaseUrl, opencodeModel, opencodePassword, setProvider, setGeminiApiKey, setGeminiModel, setOpencodeBaseUrl, setOpencodeModel, setOpencodePassword } = useProviderStore()
   const students = useGameStore((s) => s.students)
+  const role = useAuthStore((s) => s.role)
   const [activeTab, setActiveTab] = useState('theme')
   const [newName, setNewName] = useState('')
   const addStudent = useGameStore((s) => s.addStudent)
@@ -42,6 +46,7 @@ export default function SettingsModal({ open, onClose }) {
     { id: 'students', label: 'Élèves', icon: UserPlus },
     { id: 'accent', label: "Couleur d'accent", icon: Palette },
     { id: 'gametheme', label: 'Thème Jeu', icon: Gamepad2 },
+    ...(role === 'teacher' ? [{ id: 'ai', label: 'IA', icon: Brain }] : []),
   ]
 
   return (
@@ -149,6 +154,116 @@ export default function SettingsModal({ open, onClose }) {
                   </button>
                 ))}
               </div>
+            </>
+          )}
+
+          {activeTab === 'ai' && (
+            <>
+              <label className="block text-sm font-medium text-slate-900 dark:text-slate-100 mb-3">Fournisseur IA</label>
+              <p className="text-xs text-slate-500 dark:text-slate-400 mb-4">Choisissez le moteur utilisé pour la génération de contenu et le chat.</p>
+
+              <div className="flex gap-3 mb-6">
+                <button
+                  onClick={() => setProvider('gemini')}
+                  className={`flex-1 flex flex-col items-center gap-2 rounded-xl border p-4 text-sm font-medium transition-all duration-200 ${
+                    provider === 'gemini'
+                      ? 'border-indigo-400 dark:border-indigo-500 ring-2 ring-indigo-500/20 bg-indigo-50 dark:bg-indigo-900/20'
+                      : 'border-slate-200 dark:border-slate-700 hover:border-slate-300 dark:hover:border-slate-600'
+                  }`}
+                >
+                  <span className="text-lg">🧠</span>
+                  <span className="text-slate-900 dark:text-slate-100">Gemini</span>
+                  <span className="text-[10px] text-slate-500 dark:text-slate-400">Google</span>
+                  {provider === 'gemini' && <span className="text-indigo-600 dark:text-indigo-400 text-xs">✓</span>}
+                </button>
+                <button
+                  onClick={() => setProvider('opencode')}
+                  className={`flex-1 flex flex-col items-center gap-2 rounded-xl border p-4 text-sm font-medium transition-all duration-200 ${
+                    provider === 'opencode'
+                      ? 'border-indigo-400 dark:border-indigo-500 ring-2 ring-indigo-500/20 bg-indigo-50 dark:bg-indigo-900/20'
+                      : 'border-slate-200 dark:border-slate-700 hover:border-slate-300 dark:hover:border-slate-600'
+                  }`}
+                >
+                  <span className="text-lg">⚡</span>
+                  <span className="text-slate-900 dark:text-slate-100">Opencode</span>
+                  <span className="text-[10px] text-slate-500 dark:text-slate-400">Local</span>
+                  {provider === 'opencode' && <span className="text-indigo-600 dark:text-indigo-400 text-xs">✓</span>}
+                </button>
+              </div>
+
+              {provider === 'gemini' && (
+                <div className="space-y-4">
+                  <div>
+                    <label className="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1.5">Clé API Gemini</label>
+                    <input
+                      type="password"
+                      value={geminiApiKey}
+                      onChange={(e) => setGeminiApiKey(e.target.value)}
+                      placeholder="Saisissez votre clé API..."
+                      className="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg px-3 py-2 text-slate-900 dark:text-slate-100 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/30 font-mono"
+                    />
+                    <p className="text-[10px] text-slate-400 dark:text-slate-500 mt-1">
+                      Laissé vide pour utiliser la variable d&apos;environnement <code className="text-indigo-500 text-[10px]">VITE_GEMINI_API_KEY</code>
+                    </p>
+                  </div>
+                  <div>
+                    <label className="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1.5">Modèle</label>
+                    <select
+                      value={geminiModel}
+                      onChange={(e) => setGeminiModel(e.target.value)}
+                      className="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg px-3 py-2 text-slate-900 dark:text-slate-100 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/30"
+                    >
+                      {geminiModels.map((m) => (
+                        <option key={m.id} value={m.id}>{m.label}</option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
+              )}
+
+              {provider === 'opencode' && (
+                <div className="space-y-4">
+                  <div>
+                    <label className="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1.5">URL du serveur Opencode</label>
+                    <input
+                      type="text"
+                      value={opencodeBaseUrl}
+                      onChange={(e) => setOpencodeBaseUrl(e.target.value)}
+                      placeholder="http://localhost:4096"
+                      className="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg px-3 py-2 text-slate-900 dark:text-slate-100 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/30 font-mono"
+                    />
+                    <p className="text-[10px] text-slate-400 dark:text-slate-500 mt-1">
+                      Laissez <code className="text-indigo-500 text-[10px]">http://localhost:4096</code> par défaut.
+                    </p>
+                  </div>
+                  <div>
+                    <label className="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1.5">Modèle (optionnel)</label>
+                    <input
+                      type="text"
+                      value={opencodeModel}
+                      onChange={(e) => setOpencodeModel(e.target.value)}
+                      placeholder="Ex: anthropic/claude-sonnet-4-20250514"
+                      className="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg px-3 py-2 text-slate-900 dark:text-slate-100 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/30 font-mono"
+                    />
+                    <p className="text-[10px] text-slate-400 dark:text-slate-500 mt-1">
+                      Laissé vide pour utiliser le modèle par défaut du serveur.
+                    </p>
+                  </div>
+                  <div>
+                    <label className="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1.5">Mot de passe serveur</label>
+                    <input
+                      type="password"
+                      value={opencodePassword}
+                      onChange={(e) => setOpencodePassword(e.target.value)}
+                      placeholder="OPENCODE_SERVER_PASSWORD"
+                      className="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg px-3 py-2 text-slate-900 dark:text-slate-100 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/30 font-mono"
+                    />
+                    <p className="text-[10px] text-slate-400 dark:text-slate-500 mt-1">
+                      Requis si le serveur est protégé (variable <code className="text-indigo-500 text-[10px]">OPENCODE_SERVER_PASSWORD</code>).
+                    </p>
+                  </div>
+                </div>
+              )}
             </>
           )}
 

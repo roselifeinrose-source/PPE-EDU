@@ -27,7 +27,7 @@ export default function SkillsTree({ onPlayGame }) {
   const topicData = useMemo(() => {
     if (!student) return []
     return TOPIC_NODES.map((node) => {
-      const topicGames = games.filter((g) => g.topic === node.topic && !g.archived)
+      const topicGames = games.filter((g) => g.topic === node.topic && !g.archived && (g.publishedAt === undefined || (g.publishedAt && new Date(g.publishedAt) <= new Date())))
       const played = topicGames.filter((g) =>
         student.completedGames.some((cg) => cg.gameId === g.id)
       )

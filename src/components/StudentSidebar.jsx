@@ -1,5 +1,5 @@
 import { useLocation, useNavigate } from 'react-router-dom'
-import { Sword, Trophy, User, Settings, ChevronLeft, ChevronRight } from 'lucide-react'
+import { Sword, Trophy, User, ChevronLeft, ChevronRight } from 'lucide-react'
 
 const NAV_ITEMS = [
   { label: 'Missions', path: '/dashboard', icon: Sword },
@@ -7,7 +7,7 @@ const NAV_ITEMS = [
   { label: 'Mon Profil', path: '/profile', icon: User },
 ]
 
-export default function StudentSidebar({ collapsed, onToggle, onSettings }) {
+export default function StudentSidebar({ collapsed, onToggle }) {
   const location = useLocation()
   const navigate = useNavigate()
 
@@ -44,17 +44,6 @@ export default function StudentSidebar({ collapsed, onToggle, onSettings }) {
           })}
 
           <div className={`my-2 border-t border-slate-200 dark:border-slate-700 ${collapsed ? 'mx-1' : ''}`} />
-
-          <button
-            onClick={onSettings}
-            title={collapsed ? 'Paramètres' : undefined}
-            className={`w-full flex items-center gap-3 rounded-lg text-sm font-medium transition-all duration-200 ${
-              collapsed ? 'justify-center px-2 py-2.5' : 'px-3 py-2.5'
-            } text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-700/50`}
-          >
-            <Settings size={18} className="shrink-0" />
-            {!collapsed && <span>Paramètres</span>}
-          </button>
         </nav>
       </div>
 

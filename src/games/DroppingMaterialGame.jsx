@@ -45,8 +45,9 @@ export default function DroppingMaterialGame({ game, onBack }) {
   const keysRef = useRef({})
   const droppingRef = useRef(false)
   const currentIndexRef = useRef(0)
-  const currentItemRef = useRef(null)
+  const currentItemRef = useRef(shuffledItems[0] || null)
   const selectedBoxRef = useRef(0)
+  const positionedRef = useRef(false)
 
   const getBoxCenterX = useCallback((boxIndex) => {
     if (!areaRef.current || categoryCount === 0) return 0
@@ -54,6 +55,13 @@ export default function DroppingMaterialGame({ game, onBack }) {
     const bw = (areaWidth - (categoryCount - 1) * 8) / categoryCount
     return AREA_PADDING + boxIndex * (bw + 8) + bw / 2
   }, [categoryCount])
+
+  useEffect(() => {
+    if (positionedRef.current || !currentItem) return
+    positionedRef.current = true
+    const timer = setTimeout(() => setItemX(getBoxCenterX(0)), 0)
+    return () => clearTimeout(timer)
+  }, [currentItem, getBoxCenterX])
 
   const finishGame = useCallback((allResults) => {
     setFinished(true)

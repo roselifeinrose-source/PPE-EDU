@@ -3,12 +3,10 @@ import { Outlet } from 'react-router-dom'
 import Navbar from '../components/Navbar'
 import StudentSidebar from '../components/StudentSidebar'
 import FloatingAvatar from '../components/FloatingAvatar'
-import SettingsModal from '../components/SettingsModal'
 import useAuthStore from '../store/useAuthStore'
 
 export default function StudentLayout() {
   const [collapsed, setCollapsed] = useState(() => localStorage.getItem('student_sidebar_collapsed') === 'true')
-  const [settingsOpen, setSettingsOpen] = useState(false)
   const currentStudentId = useAuthStore((s) => s.currentStudentId)
   const [transitionKey, setTransitionKey] = useState(0)
   const prevStudentRef = useRef(currentStudentId)
@@ -31,13 +29,12 @@ export default function StudentLayout() {
     <div className="min-h-screen bg-white dark:bg-slate-900">
       <Navbar />
       <div className="flex">
-        <StudentSidebar collapsed={collapsed} onToggle={toggleSidebar} onSettings={() => setSettingsOpen(true)} />
+        <StudentSidebar collapsed={collapsed} onToggle={toggleSidebar} />
         <main className={`flex-1 p-2 transition-all duration-300 ${collapsed ? 'ml-20' : 'ml-56'}`} key={transitionKey}>
           <Outlet />
         </main>
       </div>
       <FloatingAvatar />
-      <SettingsModal open={settingsOpen} onClose={() => setSettingsOpen(false)} />
     </div>
   )
 }

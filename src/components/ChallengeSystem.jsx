@@ -15,7 +15,7 @@ export default function ChallengeSystem({ onPlayChallenge }) {
   const [sent, setSent] = useState(false)
 
   const opponents = students.filter((s) => s.id !== currentStudentId)
-  const quizGames = games.filter((g) => g.gameType === 'quiz' && !g.archived)
+  const quizGames = games.filter((g) => g.gameType === 'quiz' && !g.archived && (g.publishedAt === undefined || (g.publishedAt && new Date(g.publishedAt) <= new Date())))
 
   const myChallenges = (challenges || []).filter((c) => c.fromId === currentStudentId || c.toId === currentStudentId)
 

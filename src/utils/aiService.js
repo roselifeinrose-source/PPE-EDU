@@ -1,9 +1,81 @@
 import { GoogleGenAI } from '@google/genai'
+import useProviderStore from '../store/useProviderStore'
 import { getLevel } from '../constants'
 
-const ai = import.meta.env.VITE_GEMINI_API_KEY
-  ? new GoogleGenAI({ apiKey: import.meta.env.VITE_GEMINI_API_KEY })
-  : null
+function getApiKey() {
+  const { geminiApiKey } = useProviderStore.getState()
+  return geminiApiKey || import.meta.env.VITE_GEMINI_API_KEY || ''
+}
+
+function getGeminiModel() {
+  const { geminiModel } = useProviderStore.getState()
+  return geminiModel
+}
+
+function getProvider() {
+  const { provider } = useProviderStore.getState()
+  return provider
+}
+
+let geminiClient = null
+function ensureGeminiClient() {
+  const key = getApiKey()
+  if (!key) return false
+  if (!geminiClient || geminiClient.apiKey !== key) {
+    geminiClient = { apiKey: key, client: new GoogleGenAI({ apiKey: key }) }
+  }
+  return true
+}
+
+function parseModel(str) {
+  if (!str) return undefined
+  const parts = str.split('/')
+  if (parts.length === 2) return { providerID: parts[0], modelID: parts[1] }
+  return { modelID: str }
+}
+
+async function callOpencode(prompt) {
+  const { opencodeBaseUrl, opencodeModel, opencodePassword } = useProviderStore.getState()
+  const headers = { 'Content-Type': 'application/json' }
+  if (opencodePassword) {
+    headers['Authorization'] = 'Basic ' + btoa('opencode:' + opencodePassword)
+  }
+
+  try {
+    const sessionRes = await fetch(`${opencodeBaseUrl}/session`, {
+      method: 'POST',
+      headers,
+      body: JSON.stringify({ title: 'PPE Génération' }),
+    })
+    if (!sessionRes.ok) {
+      const body = await sessionRes.text().catch(() => '')
+      throw new Error(`Création de session échouée (${sessionRes.status}): ${body}`)
+    }
+    const session = await sessionRes.json()
+
+    const msgRes = await fetch(`${opencodeBaseUrl}/session/${session.id}/message`, {
+      method: 'POST',
+      headers,
+      body: JSON.stringify({
+        parts: [{ type: 'text', text: prompt }],
+        model: parseModel(opencodeModel),
+      }),
+    })
+    if (!msgRes.ok) {
+      const body = await msgRes.text().catch(() => '')
+      throw new Error(`Requête échouée (${msgRes.status}): ${body}`)
+    }
+    const result = await msgRes.json()
+    const parts = result.parts || []
+    const text = parts.map((p) => p.text || '').filter(Boolean).join('\n')
+    return text
+  } catch (err) {
+    if (err.name === 'TypeError' && err.message === 'Failed to fetch') {
+      throw new Error('Serveur Opencode introuvable. Vérifiez que le serveur est lancé et que l\'URL est correcte.', { cause: err })
+    }
+    throw err
+  }
+}
 
 function buildPrompt(text, gameType) {
   if (gameType === 'quiz') {
@@ -175,6 +247,17 @@ function validateDroppingContent(content) {
     content.categories.every((cat) => cat.id && cat.label)
 }
 
+function extractJson(text) {
+  const jsonBlock = text.match(/```(?:json)?\s*([\s\S]*?)```/)
+  if (jsonBlock) return jsonBlock[1].trim()
+  const firstBrace = text.indexOf('{')
+  const lastBrace = text.lastIndexOf('}')
+  if (firstBrace !== -1 && lastBrace > firstBrace) {
+    return text.slice(firstBrace, lastBrace + 1)
+  }
+  return text.trim()
+}
+
 function parseGameResponse(jsonStr, gameType) {
   const data = JSON.parse(jsonStr)
 
@@ -322,10 +405,34 @@ function mockGame(text, gameType) {
   }
 }
 
+async function callAI(prompt) {
+  const provider = getProvider()
+
+  if (provider === 'opencode') {
+    return callOpencode(prompt)
+  }
+
+  if (!ensureGeminiClient()) {
+    throw new Error('Aucune clé API configurée')
+  }
+
+  const response = await geminiClient.client.models.generateContent({
+    model: getGeminiModel(),
+    contents: prompt,
+  })
+
+  const text = typeof response.text === 'function' ? response.text() : response.text
+  if (!text) throw new Error('Réponse IA vide')
+  return text
+}
+
 export async function generateGameFromText(lessonText, gameType, onProgress) {
   const report = (step) => onProgress?.(step)
 
-  if (!ai) {
+  const provider = getProvider()
+  const keyAvailable = provider === 'opencode' || ensureGeminiClient()
+
+  if (!keyAvailable) {
     report('analyzing')
     await new Promise((r) => setTimeout(r, 600))
     report('generating')
@@ -344,22 +451,17 @@ export async function generateGameFromText(lessonText, gameType, onProgress) {
 
   try {
     report('generating')
-    const response = await ai.models.generateContent({
-      model: 'gemini-3.5-flash',
-      contents: prompt,
-    })
+    const rawText = await callAI(prompt)
 
     report('verifying')
-    const rawText = typeof response.text === 'function' ? response.text() : response.text
-    if (!rawText) throw new Error('Réponse Gemini vide')
-
     report('finalizing')
-    const cleaned = rawText.replace(/```json\s*/gi, '').replace(/```\s*$/g, '').trim()
+    const cleaned = extractJson(rawText)
     const game = parseGameResponse(cleaned, gameType)
 
     report('done')
     return { game, isSimulation: false }
   } catch (err) {
+    console.error('generateGameFromText error:', err)
     report('finalizing')
     await new Promise((r) => setTimeout(r, 600))
     report('done')
@@ -370,20 +472,22 @@ export async function generateGameFromText(lessonText, gameType, onProgress) {
 // ─── Chat / Q&A ─────────────────────────────────────────────────────────────
 
 export async function chatWithAI(userMessage, systemPrompt) {
-  if (!ai) {
+  const provider = getProvider()
+  const keyAvailable = provider === 'opencode' || ensureGeminiClient()
+
+  if (!keyAvailable) {
     await new Promise((r) => setTimeout(r, 600))
     return {
-      text: 'Mode simulation : je suis un assistant pédagogique. Configurez VITE_GEMINI_API_KEY pour des réponses réelles.',
+      text: 'Mode simulation : je suis un assistant pédagogique. Configurez une clé API ou utilisez le fournisseur Opencode.',
       isSimulation: true,
     }
   }
 
   try {
-    const response = await ai.models.generateContent({
-      model: 'gemini-3.5-flash',
-      contents: systemPrompt ? `${systemPrompt}\n\nQuestion / Demande : ${userMessage}` : userMessage,
-    })
-    const text = typeof response.text === 'function' ? response.text() : response.text
+    const prompt = systemPrompt
+      ? `${systemPrompt}\n\nQuestion / Demande : ${userMessage}`
+      : userMessage
+    const text = await callAI(prompt)
     return { text: text || 'Pas de réponse.', isSimulation: false }
   } catch (err) {
     console.error('chatWithAI error:', err)
@@ -534,23 +638,23 @@ function mockAnalytics(games, students) {
 }
 
 export async function analyzeClassPerformance(games, students) {
-  if (!ai) {
+  const provider = getProvider()
+  const keyAvailable = provider === 'opencode' || ensureGeminiClient()
+
+  if (!keyAvailable) {
     await new Promise((r) => setTimeout(r, 1400))
     return { data: mockAnalytics(games, students), isSimulation: true }
   }
 
   const prompt = buildAnalyticsPrompt(games, students)
   try {
-    const response = await ai.models.generateContent({
-      model: 'gemini-3.5-flash',
-      contents: prompt,
-    })
-    const rawText = typeof response.text === 'function' ? response.text() : response.text
-    if (!rawText) throw new Error('Réponse Gemini vide')
-    const cleaned = rawText.replace(/```json\s*/gi, '').replace(/```\s*$/g, '').trim()
+    const rawText = await callAI(prompt)
+    if (!rawText) throw new Error('Réponse IA vide')
+    const cleaned = extractJson(rawText)
     const data = JSON.parse(cleaned)
     return { data, isSimulation: false }
   } catch (err) {
+    console.error('analyzeClassPerformance error:', err)
     return { data: mockAnalytics(games, students), isSimulation: true, simulationReason: err.message }
   }
 }
